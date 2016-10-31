@@ -4,6 +4,7 @@ defmodule EliXero do
 	@requestTokenUrl "https://api-partner.network.xero.com/oauth/RequestToken"
 	@accessTokenUrl "https://api-partner.network.xero.com/oauth/AccessToken"
 	@authoriseBaseUrl "https://api.xero.com/oauth/Authorize"
+	@baseUrl "https://api-partner.network.xero.com/api.xro/2.0/"
 
 	@organisationUrl "https://api-partner.network.xero.com/api.xro/2.0/Organisation"
 	
@@ -19,11 +20,13 @@ defmodule EliXero do
 
 	@callback_url Application.get_env(:elixero, :callback_url)
 
+	@user_agent "EliXero - " <> @oauthConsumerKey
+
 	def getRequestToken do
 
 		header = get_auth_header("GET", @requestTokenUrl, [oauth_callback: @callback_url])
 
-		{:ok, response} = HTTPoison.get @requestTokenUrl, [{"Authorization", header}], [
+		{:ok, response} = HTTPoison.get @requestTokenUrl, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}], [
 			#{:proxy, "127.0.0.1:8888"},
 			hackney: [ 
 				ssl_options: [ 
@@ -44,7 +47,7 @@ defmodule EliXero do
 	def approveAccessToken(tokenKey, verifier) do
 		header = get_auth_header("GET", @accessTokenUrl, [oauth_token: tokenKey, oauth_verifier: verifier])
 
-		{:ok, response} = HTTPoison.get @accessTokenUrl, [{"Authorization", header}], [
+		{:ok, response} = HTTPoison.get @accessTokenUrl, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}], [
 			#{:proxy, "127.0.0.1:8888"},
 			hackney: [ 
 				ssl_options: [ 
@@ -62,7 +65,7 @@ defmodule EliXero do
 	def renewAccessToken(tokenKey, sessionHandle) do
 		header = get_auth_header("GET", @accessTokenUrl, [oauth_token: tokenKey, oauth_session_handle: sessionHandle])
 
-		{:ok, response} = HTTPoison.get @accessTokenUrl, [{"Authorization", header}, {"User-Agent", "Matt-Elixir"}], [
+		{:ok, response} = HTTPoison.get @accessTokenUrl, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}], [
 			#{:proxy, "127.0.0.1:8888"},
 			hackney: [ 
 				ssl_options: [ 
@@ -76,10 +79,11 @@ defmodule EliXero do
 		URI.decode_query(response.body)
 	end
 
-	def getOrganisation(tokenKey) do
-		header = get_auth_header("GET", @organisationUrl, [oauth_token: tokenKey])
+	def get(tokenKey, resource) do
+		url = @baseUrl <> resource
+		header = get_auth_header("GET", url, [oauth_token: tokenKey])
 
-		{:ok, response} = HTTPoison.get @organisationUrl, [{"Authorization", header}], [
+		{:ok, _} = HTTPoison.get url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}], [
 			#{:proxy, "127.0.0.1:8888"},
 			hackney: [ 
 				ssl_options: [ 
@@ -91,11 +95,11 @@ defmodule EliXero do
 		]
 	end
 
-	def get_auth_header(method, url) do
+	defp get_auth_header(method, url) do
 		get_auth_header(method, url, [])
 	end
 
-	def get_auth_header(method, url, additional_params) do
+	defp get_auth_header(method, url, additional_params) do
 		timestamp = Float.to_string(Float.floor(:os.system_time(:milli_seconds) / 1000), decimals: 0)
 
 		params = (additional_params ++
