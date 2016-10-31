@@ -3,10 +3,10 @@ defmodule EliXero.Mixfile do
 
   def project do
     [app: :elixero,
-     version: "0.1.0",
+     version: "0.0.2",
      elixir: "~> 1.3",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
+     description: description(),
+     package: package(),
      deps: deps()]
   end
 
@@ -15,6 +15,23 @@ defmodule EliXero.Mixfile do
   end
 
   defp deps do
-    [{:httpoison, "~> 0.9.0"}]
+    [
+      {:httpoison, "~> 0.9.0"},
+      {:ex_doc, ">= 0.0.0", only: :dev}
+    ]
+  end
+
+  defp description do
+    """
+    Xero API client library for elixir
+    """
+  end
+
+  defp package do
+    [ 
+      maintainers: ["MJMortimer"],
+      licenses: ["MIT"],
+      links: %{"Github" => "https://github.com/MJMortimer/elixero"} 
+    ]
   end
 end
