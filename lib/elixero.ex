@@ -8,16 +8,16 @@ defmodule EliXero do
 	@organisationUrl "https://api-partner.network.xero.com/api.xro/2.0/Organisation"
 	
 	#consumer details
-	@oauthConsumerKey Application.get_env(:xero, :consumer_key)
-	@oauthConsumerSecret Application.get_env(:xero, :consumer_secret)
+	@oauthConsumerKey Application.get_env(:elixero, :consumer_key)
+	@oauthConsumerSecret Application.get_env(:elixero, :consumer_secret)
 	
 	#cert details
-	@entrustCert Application.get_env(:xero, :entrust_cert_path)
-	@entrustKey Application.get_env(:xero, :entrust_key_path)
-	@entrustPassword Application.get_env(:xero, :entrust_password)
-	@privateKey Application.get_env(:xero, :private_key_path)
+	@entrustCert Application.get_env(:elixero, :entrust_cert_path)
+	@entrustKey Application.get_env(:elixero, :entrust_key_path)
+	@entrustPassword Application.get_env(:elixero, :entrust_password)
+	@privateKey Application.get_env(:elixero, :private_key_path)
 
-	@callback_url Application.get_env(:xero, :callback_url)
+	@callback_url Application.get_env(:elixero, :callback_url)
 
 	def getRequestToken do
 

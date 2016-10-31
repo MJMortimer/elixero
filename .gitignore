@@ -15,4 +15,9 @@ erl_crash.dump
 
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
+
+# Don't add the xero_app_config as this will contain sensitive data
 */xero_app_config.exs
+
+# The others
+mix.lock
