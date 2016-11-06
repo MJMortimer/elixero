@@ -95,7 +95,7 @@ defmodule EliXero.Partner do
 		params = (additional_params ++
 			[
 				oauth_consumer_key: @oauth_consumer_key,
-				oauth_nonce: random_string(10),
+				oauth_nonce: EliXero.Utils.random_string(10),
 				oauth_signature_method: "RSA-SHA1",
 				oauth_version: "1.0",
 				oauth_timestamp: timestamp
@@ -105,12 +105,12 @@ defmodule EliXero.Partner do
 			method <> "&" <> 
 			URI.encode_www_form(url) <> "&" <>
 			URI.encode_www_form(
-				join_params_keyword(params, :base_string)
+				EliXero.Utils.join_params_keyword(params, :base_string)
 			)
 
 		signature = rsa_sha1_sign(base_string)
 
-		"OAuth oauth_signature=\"" <> signature <> "\", " <> join_params_keyword(params, :auth_header)
+		"OAuth oauth_signature=\"" <> signature <> "\", " <> EliXero.Utils.join_params_keyword(params, :auth_header)
 	end
 
 	defp rsa_sha1_sign(basestring) do
@@ -124,15 +124,5 @@ defmodule EliXero.Partner do
 		URI.encode(Base.encode64(signed), &URI.char_unreserved?(&1))
 	end
 
-	defp random_string(length) do
-  		:crypto.strong_rand_bytes(length) |> Base.url_encode64 |> binary_part(0, length)
-	end
-
-	defp join_params_keyword(keyword, :base_string) do
-		Enum.map_join(keyword, "&", fn({key, value}) -> Atom.to_string(key) <> "=" <> value end)
-	end
-
-	defp join_params_keyword(keyword, :auth_header) do
-		Enum.map_join(keyword, ", ", fn({key, value}) -> Atom.to_string(key) <> "=\"" <> value <> "\"" end)
-	end
+	
 end
