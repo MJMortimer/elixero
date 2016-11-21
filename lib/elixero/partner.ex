@@ -1,16 +1,13 @@
 defmodule EliXero.Partner do
 
 	#urls
-	@base_url "https://api-partner.network.xero.com/"
+	@base_url "https://api.xero.com/"
 	@request_token_url @base_url <> "oauth/RequestToken"
 	@access_token_url @base_url <> "oauth/AccessToken"
-	@authorise_url "https://api.xero.com/oauth/Authorize"
+	@authorise_url @base_url <> "oauth/Authorize"
 	@accounting_base_url @base_url <> "api.xro/2.0/"
 
 	#cert details
-	@entrust_cert Application.get_env(:elixero, :entrust_cert_path)
-	@entrust_key Application.get_env(:elixero, :entrust_key_path)
-	@entrust_password Application.get_env(:elixero, :entrust_password)
 	@private_key Application.get_env(:elixero, :private_key_path)
 
 	#consumer details
@@ -24,15 +21,7 @@ defmodule EliXero.Partner do
 	def get_request_token do
 		header = get_auth_header("GET", @request_token_url, [oauth_callback: @callback_url])
 
-		{:ok, response} = HTTPoison.get @request_token_url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}], [
-			hackney: [ 
-				ssl_options: [ 
-					certfile: @entrust_cert,
-					keyfile: @entrust_key,
-					password: @entrust_password
-				]
-			]
-		]
+		{:ok, response} = HTTPoison.get @request_token_url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}]
 
 		URI.decode_query(response.body)
 	end
@@ -44,15 +33,7 @@ defmodule EliXero.Partner do
 	def approve_access_token(request_token, verifier) do
 		header = get_auth_header("GET", @access_token_url, [oauth_token: request_token["oauth_token"], oauth_verifier: verifier])
 
-		{:ok, response} = HTTPoison.get @access_token_url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}], [
-			hackney: [ 
-				ssl_options: [ 
-					certfile: @entrust_cert,
-					keyfile: @entrust_key,
-					password: @entrust_password
-				]
-			]
-		]
+		{:ok, response} = HTTPoison.get @access_token_url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}]
 
 		URI.decode_query(response.body)
 
@@ -61,15 +42,7 @@ defmodule EliXero.Partner do
 	def renew_access_token(access_token) do
 		header = get_auth_header("GET", @access_token_url, [ oauth_token: access_token["oauth_token"], oauth_session_handle: access_token["oauth_session_handle"] ])
 
-		{:ok, response} = HTTPoison.get @access_token_url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}], [
-			hackney: [ 
-				ssl_options: [ 
-					certfile: @entrust_cert,
-					keyfile: @entrust_key,
-					password: @entrust_password
-				]
-			]
-		]
+		{:ok, response} = HTTPoison.get @access_token_url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}]
 
 		URI.decode_query(response.body)
 	end
@@ -78,15 +51,7 @@ defmodule EliXero.Partner do
 		url = @accounting_base_url <> resource
 		header = get_auth_header("GET", url, [oauth_token: access_token["oauth_token"]])
 
-		{:ok, _} = HTTPoison.get url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}], [
-			hackney: [ 
-				ssl_options: [ 
-					certfile: @entrust_cert,
-					keyfile: @entrust_key,
-					password: @entrust_password
-				]
-			]
-		]
+		{:ok, _} = HTTPoison.get url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}]
 	end	
 
 	defp get_auth_header(method, url, additional_params) do
