@@ -14,8 +14,7 @@ defmodule EliXero.Private do
 	def get(resource) do
 		url = @accounting_base_url <> resource
 		header = get_auth_header("GET", url, [oauth_token: @oauth_consumer_key])
-
-		{:ok, _} = HTTPoison.get url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}]
+		EliXero.Utils.Http.get(url, header)
 	end	
 
 	defp get_auth_header(method, url, additional_params) do

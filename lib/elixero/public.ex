@@ -11,14 +11,10 @@ defmodule EliXero.Public do
 	@oauth_consumer_key Application.get_env(:elixero, :consumer_key)
 	@oauth_consumer_secret Application.get_env(:elixero, :consumer_secret)
 
-	@callback_url Application.get_env(:elixero, :callback_url)
-
-	@user_agent "EliXero - " <> @oauth_consumer_key	
-
 	def get_request_token do
-		header = get_auth_header("GET", @request_token_url, [oauth_callback: @callback_url])
-		{:ok, response} = HTTPoison.get @request_token_url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}]
-		URI.decode_query(response.body)
+		callback_url = Application.get_env(:elixero, :callback_url)
+		header = get_auth_header("GET", @request_token_url, [oauth_callback: callback_url])
+		EliXero.Utils.Http.get(@request_token_url, header)
 	end
 
 	def generate_auth_url(request_token) do
@@ -27,14 +23,13 @@ defmodule EliXero.Public do
 
 	def approve_access_token(request_token, verifier) do
 		header = get_auth_header("GET", @access_token_url, request_token, [oauth_token: request_token["oauth_token"], oauth_verifier: verifier])
-		{:ok, response} = HTTPoison.get @access_token_url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}]
-		URI.decode_query(response.body)
+		EliXero.Utils.Http.get(@access_token_url, header)
 	end
 
 	def get(access_token, resource) do
 		url = @accounting_base_url <> resource
 		header = get_auth_header("GET", url, access_token, [oauth_token: access_token["oauth_token"]])
-		{:ok, _} = HTTPoison.get url, [{"Authorization", header}, {"Accept", "application/json"}, {"User-Agent", @user_agent}]
+		EliXero.Utils.Http.get(@access_token_url, header)
 	end	
 
 	defp get_auth_header(method, url, additional_params) do
