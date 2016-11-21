@@ -47,7 +47,7 @@ defmodule EliXero.Public do
 		params = (additional_params ++
 			[
 				oauth_consumer_key: @oauth_consumer_key,
-				oauth_nonce: EliXero.Utils.random_string(10),
+				oauth_nonce: EliXero.Utils.Helpers.random_string(10),
 				oauth_signature_method: "HMAC-SHA1",
 				oauth_version: "1.0",
 				oauth_timestamp: timestamp
@@ -57,12 +57,12 @@ defmodule EliXero.Public do
 			method <> "&" <> 
 			URI.encode_www_form(url) <> "&" <>
 			URI.encode_www_form(
-				EliXero.Utils.join_params_keyword(params, :base_string)
+				EliXero.Utils.Helpers.join_params_keyword(params, :base_string)
 			)
 
 		signature = hmac_sha1_sign(base_string, token)
 
-		"OAuth oauth_signature=\"" <> signature <> "\", " <> EliXero.Utils.join_params_keyword(params, :auth_header)
+		"OAuth oauth_signature=\"" <> signature <> "\", " <> EliXero.Utils.Helpers.join_params_keyword(params, :auth_header)
 	end
 
 	defp hmac_sha1_sign(basestring, token) do
