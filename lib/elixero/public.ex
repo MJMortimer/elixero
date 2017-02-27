@@ -66,10 +66,7 @@ defmodule EliXero.Public do
 				nil -> @oauth_consumer_secret <> "&"
 				_ -> @oauth_consumer_secret <> "&" <> token["oauth_token_secret"]
 			end
-		IO.inspect key
 		signed = :crypto.hmac(:sha, key, basestring)
-		x = URI.encode(Base.encode64(signed), &URI.char_unreserved?(&1))
-		IO.inspect x
-		x
+		URI.encode(Base.encode64(signed), &URI.char_unreserved?(&1))
 	end
 end

@@ -20,16 +20,37 @@ defmodule EliXero.Private do
 	defp get_auth_header(method, url, additional_params) do
 		timestamp = Float.to_string(Float.floor(:os.system_time(:milli_seconds) / 1000), decimals: 0)
 
-		params = (additional_params ++
+		params = additional_params ++
 			[
 				oauth_consumer_key: @oauth_consumer_key,
 				oauth_nonce: EliXero.Utils.Helpers.random_string(10),
 				oauth_signature_method: "RSA-SHA1",
 				oauth_version: "1.0",
 				oauth_timestamp: timestamp
-			]) |> Enum.sort
+			]
 
-		base_string = 
+		uri_parts = String.split(url, "?")
+		url = Enum.at(uri_parts, 0)
+
+		params =
+			if (length(uri_parts) > 1) do
+				xxx = (Enum.at(uri_parts, 1) |> URI.decode_query)
+				query_params = Enum.map(xxx, fn({key, value}) -> {String.to_atom(key), URI.encode_www_form(value)} end)
+				IO.inspect query_params
+				params ++ query_params
+			else
+				params
+			end
+		
+
+		IO.inspect params
+		params = Enum.sort(params)
+
+		IO.inspect params
+		
+
+		IO.inspect url
+		IO.inspect base_string = 
 			method <> "&" <> 
 			URI.encode_www_form(url) <> "&" <>
 			URI.encode_www_form(
