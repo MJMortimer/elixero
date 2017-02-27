@@ -50,13 +50,26 @@ defmodule EliXero.Partner do
 				oauth_signature_method: "RSA-SHA1",
 				oauth_version: "1.0",
 				oauth_timestamp: timestamp
-			]) |> Enum.sort
+			])
+
+		uri_parts = String.split(url, "?")
+		url = Enum.at(uri_parts, 0)
+
+		params_with_query_params =
+			if (length(uri_parts) > 1) do
+				query_params = Enum.at(uri_parts, 1) |> URI.decode_query |> Enum.map(fn({key, value}) -> {String.to_atom(key), URI.encode_www_form(value)} end)
+				params ++ query_params
+			else
+				params
+			end
+		
+		params_with_query_params = Enum.sort(params_with_query_params)		
 
 		base_string = 
 			method <> "&" <> 
 			URI.encode_www_form(url) <> "&" <>
 			URI.encode_www_form(
-				EliXero.Utils.Helpers.join_params_keyword(params, :base_string)
+				EliXero.Utils.Helpers.join_params_keyword(params_with_query_params, :base_string)
 			)
 
 		signature = rsa_sha1_sign(base_string)

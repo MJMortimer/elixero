@@ -32,33 +32,26 @@ defmodule EliXero.Private do
 		uri_parts = String.split(url, "?")
 		url = Enum.at(uri_parts, 0)
 
-		params =
+		params_with_query_params =
 			if (length(uri_parts) > 1) do
-				xxx = (Enum.at(uri_parts, 1) |> URI.decode_query)
-				query_params = Enum.map(xxx, fn({key, value}) -> {String.to_atom(key), URI.encode_www_form(value)} end)
-				IO.inspect query_params
+				query_params = Enum.at(uri_parts, 1) |> URI.decode_query |> Enum.map(fn({key, value}) -> {String.to_atom(key), URI.encode_www_form(value)} end)
 				params ++ query_params
 			else
 				params
 			end
 		
-
-		IO.inspect params
-		params = Enum.sort(params)
-
-		IO.inspect params
+		params_with_query_params = Enum.sort(params_with_query_params)
 		
-
-		IO.inspect url
-		IO.inspect base_string = 
+		base_string = 
 			method <> "&" <> 
 			URI.encode_www_form(url) <> "&" <>
 			URI.encode_www_form(
-				EliXero.Utils.Helpers.join_params_keyword(params, :base_string)
+				EliXero.Utils.Helpers.join_params_keyword(params_with_query_params, :base_string)
 			)
 
 		signature = rsa_sha1_sign(base_string)
 
+		#Don't add the params_with_query_params as the query params are already in the actual url. Just add params
 		"OAuth oauth_signature=\"" <> signature <> "\", " <> EliXero.Utils.Helpers.join_params_keyword(params, :auth_header)
 	end
 
