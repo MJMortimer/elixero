@@ -8,7 +8,7 @@ defmodule EliXero.Utils.Http do
 
 		{:ok, response} = HTTPoison.get url, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}]
 
-		#IO.inspect response
+		#IO.inspect response.status_code
 		headers = response.headers |> Map.new
 		content_type = headers["Content-Type"] |> String.split(" ") |> Enum.at(0)
 
@@ -19,12 +19,15 @@ defmodule EliXero.Utils.Http do
 	end
 
 	def handle_json_response(response) do
-		{_, resp} = Poison.Parser.parse(response.body)
-		resp
+		resp = %{"status_code" => response.status_code}
+
+		{_, parsed} = Poison.Parser.parse(response.body)
+		Map.merge(resp, parsed)
 	end
 
 	def handle_html_response(response) do
-		URI.decode_query(response.body)
+		resp = %{"status_code" => response.status_code}
+		URI.decode_query(response.body) |> Map.merge(resp)
 	end
 
 end

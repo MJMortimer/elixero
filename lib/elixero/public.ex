@@ -13,7 +13,7 @@ defmodule EliXero.Public do
 
 	def get_request_token do
 		callback_url = Application.get_env(:elixero, :callback_url)
-		header = get_auth_header("GET", @request_token_url, [oauth_callback: callback_url])
+		header = EliXero.Utils.Oauth.create_auth_header("GET", @request_token_url, [oauth_callback: callback_url], nil)
 		EliXero.Utils.Http.get(@request_token_url, header)
 	end
 
@@ -22,64 +22,13 @@ defmodule EliXero.Public do
 	end
 
 	def approve_access_token(request_token, verifier) do
-		header = get_auth_header("GET", @access_token_url, request_token, [oauth_token: request_token["oauth_token"], oauth_verifier: verifier])
+		header = EliXero.Utils.Oauth.create_auth_header("GET", @access_token_url, [oauth_token: request_token["oauth_token"], oauth_verifier: verifier], request_token)
 		EliXero.Utils.Http.get(@access_token_url, header)
 	end
 
 	def get(access_token, resource) do
 		url = @accounting_base_url <> resource
-		header = get_auth_header("GET", url, access_token, [oauth_token: access_token["oauth_token"]])
-		EliXero.Utils.Http.get(@access_token_url, header)
+		header = EliXero.Utils.Oauth.create_auth_header("GET", url, [oauth_token: access_token["oauth_token"]], access_token)
+		EliXero.Utils.Http.get(url, header)
 	end	
-
-	defp get_auth_header(method, url, additional_params) do
-		get_auth_header(method, url, nil, additional_params)
-	end
-
-	defp get_auth_header(method, url, token, additional_params) do
-		timestamp = Float.to_string(Float.floor(:os.system_time(:milli_seconds) / 1000), decimals: 0)
-
-		params = (additional_params ++
-			[
-				oauth_consumer_key: @oauth_consumer_key,
-				oauth_nonce: EliXero.Utils.Helpers.random_string(10),
-				oauth_signature_method: "HMAC-SHA1",
-				oauth_version: "1.0",
-				oauth_timestamp: timestamp
-			])
-
-		uri_parts = String.split(url, "?")
-		url = Enum.at(uri_parts, 0)
-
-		params_with_query_params =
-			if (length(uri_parts) > 1) do
-				query_params = Enum.at(uri_parts, 1) |> URI.decode_query |> Enum.map(fn({key, value}) -> {String.to_atom(key), URI.encode_www_form(value)} end)
-				params ++ query_params
-			else
-				params
-			end
-		
-		params_with_query_params = Enum.sort(params_with_query_params)
-
-		base_string = 
-			method <> "&" <> 
-			URI.encode_www_form(url) <> "&" <>
-			URI.encode_www_form(
-				EliXero.Utils.Helpers.join_params_keyword(params_with_query_params, :base_string)
-			)
-
-		signature = hmac_sha1_sign(base_string, token)
-
-		"OAuth oauth_signature=\"" <> signature <> "\", " <> EliXero.Utils.Helpers.join_params_keyword(params, :auth_header)
-	end
-
-	defp hmac_sha1_sign(basestring, token) do
-		key = 
-			case(token) do
-				nil -> @oauth_consumer_secret <> "&"
-				_ -> @oauth_consumer_secret <> "&" <> token["oauth_token_secret"]
-			end
-		signed = :crypto.hmac(:sha, key, basestring)
-		URI.encode(Base.encode64(signed), &URI.char_unreserved?(&1))
-	end
 end
