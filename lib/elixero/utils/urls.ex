@@ -1,7 +1,7 @@
 defmodule EliXero.Utils.Urls do
 
 	#urls
-	@base_url "http://api.branch31.test.xero.com/"
+	@base_url "https://api.xero.com/"
 	@request_token_url @base_url <> "oauth/RequestToken"
 	@access_token_url @base_url <> "oauth/AccessToken"
 	@authorise_url @base_url <> "oauth/Authorize"
@@ -11,6 +11,7 @@ defmodule EliXero.Utils.Urls do
 	@payroll_api "payroll.xro/1.0/"
 	@files_api "files.xro/1.0/"
 	@assets_api "assets.xro/1.0/"
+	@payroll_uk_api "payroll.xro/2.0/"
 
 	def request_token do
 		@request_token_url
@@ -34,7 +35,7 @@ defmodule EliXero.Utils.Urls do
 				:payroll_uk -> @payroll_uk_api
 			end
 
-		url = @base_url <> api <> resource
+		@base_url <> api <> resource
 	end
 
 end
