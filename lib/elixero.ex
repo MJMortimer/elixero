@@ -31,19 +31,35 @@ defmodule EliXero do
 		end
 	end
 
-	def get(resource) do
+	def find(resource, api_type) do
 		case(Application.get_env(:elixero, :app_type)) do
-			:private -> EliXero.Private.get(resource)
-			:public -> raise "get/2 should be used with Public apps. An access token is required."
-			:partner -> raise "get/2 should be used with Partner apps. An access token is required."
+			:private -> EliXero.Private.get(resource, api_type)
+			:public -> raise "find/3 should be used with Public apps. An access token is required in addition to the resource and API type"
+			:partner -> raise "find/3 should be used with Partner apps. An access token is required in addition to the resource and API type"
 		end
 	end
 
-	def get(access_token, resource) do
+	def find(access_token, resource, api_type) do
 		case(Application.get_env(:elixero, :app_type)) do
-			:private -> raise "get/1 should be used with Private apps. No access token is required."
-			:public -> EliXero.Public.get(access_token, resource)
-			:partner -> EliXero.Partner.get(access_token, resource)
+			:private -> raise "find/2 should be used with Private apps. Private apps require only the resource and API type"
+			:public -> EliXero.Public.get(access_token, resource, api_type)
+			:partner -> EliXero.Partner.get(access_token, resource, api_type)
 		end
-	end	
+	end
+
+	def create(resource, api_type, data_map) do
+		case(Application.get_env(:elixero, :app_type)) do
+			:private -> EliXero.Private.create(resource, api_type, data_map)
+			:public -> raise "create/4 should be used with Public apps. An access token is required in addition to the resource, API type and data map"
+			:partner -> raise "create/4 should be used with Partner apps. An access token is required in addition to the resource, API type and data map"
+		end
+	end
+
+	def create(access_token, resource, api_type, data_map) do
+		case(Application.get_env(:elixero, :app_type)) do
+			:private -> raise "create/3 should be used with Private apps. Private apps require only the resource, API type, and data map"
+			:public -> EliXero.Public.create(access_token, resource, api_type, data_map)
+			:partner -> EliXero.Partner.create(access_token, resource, api_type, data_map)
+		end
+	end		
 end
