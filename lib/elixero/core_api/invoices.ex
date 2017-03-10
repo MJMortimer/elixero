@@ -14,12 +14,12 @@ defmodule EliXero.CoreApi.Invoices do
 		EliXero.CoreApi.Common.filter(client, @resource, filter)
 	end
 
-	def create(client, expense_claims_map) do
-		EliXero.CoreApi.Common.create(client, @resource, expense_claims_map)
+	def create(client, invoices_map) do
+		EliXero.CoreApi.Common.create(client, @resource, invoices_map)
 	end
 
-	def update(client, identifier, expense_claims_map) do
-		EliXero.CoreApi.Common.update(client, @resource, identifier, expense_claims_map)
+	def update(client, identifier, invoices_map) do
+		EliXero.CoreApi.Common.update(client, @resource, identifier, invoices_map)
 	end
 
 	def online_invoice_url(client, identifier) do
