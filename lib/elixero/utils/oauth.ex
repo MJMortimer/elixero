@@ -4,27 +4,26 @@ defmodule EliXero.Utils.Oauth do
 	@application_type Application.get_env(:elixero, :app_type)
 	@private_key Application.get_env(:elixero, :private_key_path)
 
-	def create_auth_header(method, url, additional_params, token) do
-		{base_string, oauth_params} = create_oauth_context(method, url, additional_params)
+	def create_auth_header(method, url, additional_params, form_data, token) do
+		{base_string, oauth_params} = create_oauth_context(method, url, additional_params, form_data)
 
 		signature = sign(base_string, token)
 
 		"OAuth oauth_signature=\"" <> signature <> "\", " <> EliXero.Utils.Helpers.join_params_keyword(oauth_params, :auth_header)
 	end
 
-	def create_auth_header(method, url, additional_params) do
-		{base_string, oauth_params} = create_oauth_context(method, url, additional_params)
+	def create_auth_header(method, url, additional_params, form_data) do
+		{base_string, oauth_params} = create_oauth_context(method, url, additional_params, form_data)
 
 		signature = sign(base_string)
 
 		"OAuth oauth_signature=\"" <> signature <> "\", " <> EliXero.Utils.Helpers.join_params_keyword(oauth_params, :auth_header)
 	end
 
-	defp create_oauth_context(method, url, additional_params) do
+	defp create_oauth_context(method, url, additional_params, form_data) do
 		timestamp = Float.to_string(Float.floor(:os.system_time(:milli_seconds) / 1000), decimals: 0)
 
-		params = additional_params ++
-			[
+		oauth_signing_params = [
 				oauth_consumer_key: @oauth_consumer_key,
 				oauth_nonce: EliXero.Utils.Helpers.random_string(10),
 				oauth_signature_method: signature_method(),
@@ -32,10 +31,12 @@ defmodule EliXero.Utils.Oauth do
 				oauth_timestamp: timestamp
 			]
 
+		params = additional_params ++ oauth_signing_params
+			
 		uri_parts = String.split(url, "?")
 		url = Enum.at(uri_parts, 0)
 
-		params_with_query_params =
+		params_with_extras =
 			if (length(uri_parts) > 1) do
 				query_params = Enum.at(uri_parts, 1) |> URI.decode_query |> Enum.map(fn({key, value}) -> {String.to_atom(key), URI.encode_www_form(value)} end)
 				params ++ query_params
@@ -43,13 +44,19 @@ defmodule EliXero.Utils.Oauth do
 				params
 			end
 		
-		params_with_query_params = Enum.sort(params_with_query_params)
-		
+		params_with_extras =
+			case(form_data) do
+				nil -> params_with_extras
+				_ -> params_with_extras ++ form_data
+			end
+
+		params_with_extras = Enum.sort(params_with_extras)
+
 		base_string = 
 			method <> "&" <> 
 			URI.encode_www_form(url) <> "&" <>
 			URI.encode_www_form(
-				EliXero.Utils.Helpers.join_params_keyword(params_with_query_params, :base_string)
+				EliXero.Utils.Helpers.join_params_keyword(params_with_extras, :base_string)
 			)
 
 		{base_string, params}

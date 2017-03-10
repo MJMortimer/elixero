@@ -7,10 +7,10 @@ defmodule EliXero.Private do
 
 	@user_agent "EliXero - " <> @oauth_consumer_key	
 
-	def get(resource, api_type) do
+	def find(resource, api_type) do
 		url = EliXero.Utils.Urls.api(resource, api_type)
 
-		header = EliXero.Utils.Oauth.create_auth_header("GET", url, [oauth_token: @oauth_consumer_key])
+		header = EliXero.Utils.Oauth.create_auth_header("GET", url, [oauth_token: @oauth_consumer_key], nil)
 		EliXero.Utils.Http.get(url, header)
 	end
 
@@ -22,7 +22,7 @@ defmodule EliXero.Private do
 				:core -> "PUT"
 			end
 
-		header = EliXero.Utils.Oauth.create_auth_header(method, url, [oauth_token: @oauth_consumer_key])
+		header = EliXero.Utils.Oauth.create_auth_header(method, url, [oauth_token: @oauth_consumer_key], nil)
 		
 		response = 
 			case(method) do
@@ -30,5 +30,13 @@ defmodule EliXero.Private do
 			end
 
 		response
+	end
+
+	def upload_multipart(resource, api_type, path_to_file, name) do
+		url = EliXero.Utils.Urls.api(resource, api_type)
+
+		header = EliXero.Utils.Oauth.create_auth_header("POST", url, [oauth_token: @oauth_consumer_key], [Name: name])
+
+		EliXero.Utils.Http.upload_multipart(url, header, path_to_file, [{"Name", name}])
 	end
 end

@@ -9,7 +9,7 @@ defmodule EliXero.Partner do
 	def get_request_token do
 		callback_url = Application.get_env(:elixero, :callback_url)
 		request_token_url = EliXero.Utils.Urls.request_token
-		header = EliXero.Utils.Oauth.create_auth_header("GET", request_token_url, [oauth_callback: callback_url])
+		header = EliXero.Utils.Oauth.create_auth_header("GET", request_token_url, [oauth_callback: callback_url], nil)
 		EliXero.Utils.Http.get(request_token_url, header)
 	end
 
@@ -19,19 +19,19 @@ defmodule EliXero.Partner do
 
 	def approve_access_token(request_token, verifier) do
 		access_token_url = EliXero.Utils.Urls.access_token
-		header = EliXero.Utils.Oauth.create_auth_header("GET", access_token_url, [oauth_token: request_token["oauth_token"], oauth_verifier: verifier])
+		header = EliXero.Utils.Oauth.create_auth_header("GET", access_token_url, [oauth_token: request_token["oauth_token"], oauth_verifier: verifier], nil)
 		EliXero.Utils.Http.get(access_token_url, header)
 	end
 
 	def renew_access_token(access_token) do
 		access_token_url = EliXero.Utils.Urls.access_token
-		header = EliXero.Utils.Oauth.create_auth_header("GET", access_token_url, [ oauth_token: access_token["oauth_token"], oauth_session_handle: access_token["oauth_session_handle"] ])
+		header = EliXero.Utils.Oauth.create_auth_header("GET", access_token_url, [ oauth_token: access_token["oauth_token"], oauth_session_handle: access_token["oauth_session_handle"] ], nil)
 		EliXero.Utils.Http.get(access_token_url, header)
 	end
 
-	def get(access_token, resource, api_type) do		
+	def find(access_token, resource, api_type) do		
 		url = EliXero.Utils.Urls.api(resource, api_type)
-		header = EliXero.Utils.Oauth.create_auth_header("GET", url, [oauth_token: access_token["oauth_token"]])
+		header = EliXero.Utils.Oauth.create_auth_header("GET", url, [oauth_token: access_token["oauth_token"]], nil)
 		EliXero.Utils.Http.get(url, header)
 	end
 
@@ -43,7 +43,7 @@ defmodule EliXero.Partner do
 				:core -> "PUT"
 			end
 
-		header = EliXero.Utils.Oauth.create_auth_header(method, url, [oauth_token: access_token["oauth_token"]])
+		header = EliXero.Utils.Oauth.create_auth_header(method, url, [oauth_token: access_token["oauth_token"]], nil)
 		
 		response = 
 			case(method) do
@@ -51,5 +51,13 @@ defmodule EliXero.Partner do
 			end
 
 		response
+	end
+
+	def upload_multipart(access_token, resource, api_type, path_to_file, name) do
+		url = EliXero.Utils.Urls.api(resource, api_type)
+
+		header = EliXero.Utils.Oauth.create_auth_header("POST", url, [oauth_token: access_token["oauth_token"]], [Name: name])
+
+		EliXero.Utils.Http.upload_multipart(url, header, path_to_file, [{"Name", name}])
 	end		
 end

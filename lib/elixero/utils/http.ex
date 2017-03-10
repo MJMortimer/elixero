@@ -24,6 +24,16 @@ defmodule EliXero.Utils.Http do
 		handle_response(response)
 	end
 
+	def upload_multipart(url, authorisation_header, path_to_file, multipart_meta_data) do
+
+		IO.inspect path_to_file
+		{:ok, response} = HTTPoison.post url, {:multipart, multipart_meta_data ++ [{:file, path_to_file}]}, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}]#, [{:proxy, "127.0.0.1:8888"}]
+
+		#IO.inspect response
+
+		handle_response(response)
+	end
+
 	defp handle_response(response) do
 		headers = response.headers |> Map.new
 		content_type = headers["Content-Type"] |> String.split(" ") |> Enum.at(0)
