@@ -1,6 +1,6 @@
-defmodule EliXero.CoreApi.Accounts do
+defmodule EliXero.CoreApi.BrandingThemes do
 	@api_type :core	
-	@resource "accounts"
+	@resource "brandingthemes"
 
 	def find(client) do
 		EliXero.CoreApi.Common.find(client, @resource)
