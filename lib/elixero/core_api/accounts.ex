@@ -1,6 +1,6 @@
-defmodule EliXero.CoreApi.Contacts do
+defmodule EliXero.CoreApi.Accounts do
 	@api_type :core	
-	@resource "contacts"
+	@resource "accounts"
 
 	def find(client) do
 		EliXero.CoreApi.Common.find(client, @resource)
@@ -14,11 +14,11 @@ defmodule EliXero.CoreApi.Contacts do
 		EliXero.CoreApi.Common.find_single(client, @resource, identifier)
 	end
 
-	def create(client, contacts_map) do
-		EliXero.CoreApi.Common.create(client, @resource, contacts_map)
+	def create(client, accounts_map) do
+		EliXero.CoreApi.Common.create(client, @resource, accounts_map)
 	end
 
-	def update(client, identifier, contacts_map) do
-		EliXero.CoreApi.Common.update(client, @resource, identifier, contacts_map)
+	def update(client, identifier, accounts_map) do
+		EliXero.CoreApi.Common.update(client, @resource, identifier, accounts_map)
 	end
 end

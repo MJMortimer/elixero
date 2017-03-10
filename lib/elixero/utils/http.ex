@@ -8,28 +8,28 @@ defmodule EliXero.Utils.Http do
 
 		{:ok, response} = HTTPoison.get url, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}]#, [{:proxy, "127.0.0.1:8888"}]
 
-		#IO.inspect response.status_code
-		
 		handle_response(response)
 	end
 
 	def put(url, authorisation_header, data_map) do
 		{_, payload} = Poison.encode(data_map)
-		IO.inspect(payload)
 		
 		{:ok, response} = HTTPoison.put url, payload, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}]#, [{:proxy, "127.0.0.1:8888"}]
 
-		#IO.inspect response
+		handle_response(response)
+	end
+
+	def post(url, authorisation_header, data_map) do
+		{_, payload} = Poison.encode(data_map)
+		
+		{:ok, response} = HTTPoison.post url, payload, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}]#, [{:proxy, "127.0.0.1:8888"}]
 
 		handle_response(response)
 	end
 
 	def upload_multipart(url, authorisation_header, path_to_file, multipart_meta_data) do
 
-		IO.inspect path_to_file
 		{:ok, response} = HTTPoison.post url, {:multipart, multipart_meta_data ++ [{:file, path_to_file}]}, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}]#, [{:proxy, "127.0.0.1:8888"}]
-
-		#IO.inspect response
 
 		handle_response(response)
 	end

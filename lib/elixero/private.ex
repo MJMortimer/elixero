@@ -32,6 +32,24 @@ defmodule EliXero.Private do
 		response
 	end
 
+	def update(resource, api_type, data_map) do
+		url = EliXero.Utils.Urls.api(resource, api_type)
+
+		method =
+			case(api_type) do
+				:core -> "POST"
+			end
+
+		header = EliXero.Utils.Oauth.create_auth_header(method, url, [oauth_token: @oauth_consumer_key], nil)
+		
+		response = 
+			case(method) do
+				"POST" -> EliXero.Utils.Http.post(url, header, data_map)
+			end
+
+		response
+	end
+
 	def upload_multipart(resource, api_type, path_to_file, name) do
 		url = EliXero.Utils.Urls.api(resource, api_type)
 
