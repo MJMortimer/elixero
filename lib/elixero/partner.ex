@@ -71,6 +71,14 @@ defmodule EliXero.Partner do
 		response
 	end
 
+	def delete(access_token, resource, api_type) do
+		url = EliXero.Utils.Urls.api(resource, api_type)
+
+		header = EliXero.Utils.Oauth.create_auth_header("DELETE", url, [oauth_token: access_token["oauth_token"]], nil)
+		
+		EliXero.Utils.Http.delete(url, header)
+	end
+
 	def upload_multipart(access_token, resource, api_type, path_to_file, name) do
 		url = EliXero.Utils.Urls.api(resource, api_type)
 
