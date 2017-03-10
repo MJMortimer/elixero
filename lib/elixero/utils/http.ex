@@ -42,7 +42,16 @@ defmodule EliXero.Utils.Http do
 
 	defp handle_response(response) do
 		headers = response.headers |> Map.new
-		content_type = headers["Content-Type"] |> String.split(" ") |> Enum.at(0)
+		content_type = headers["Content-Type"]
+
+		case content_type do
+			nil -> handle_html_response(response)
+			_ -> handle_response(response, content_type)
+		end
+	end
+
+	defp handle_response(response, content_type) do
+		content_type = String.split(content_type, " ") |> Enum.at(0)
 
 		case content_type do
 			"application/json;" -> handle_json_response(response)
@@ -51,14 +60,14 @@ defmodule EliXero.Utils.Http do
 	end
 
 	defp handle_json_response(response) do
-		resp = %{"status_code" => response.status_code}
+		resp = %{"http_status_code" => response.status_code}
 
 		{_, parsed} = Poison.Parser.parse(response.body)
 		Map.merge(resp, parsed)
 	end
 
 	defp handle_html_response(response) do
-		resp = %{"status_code" => response.status_code}
+		resp = %{"http_status_code" => response.status_code}
 		URI.decode_query(response.body) |> Map.merge(resp)
 	end
 
