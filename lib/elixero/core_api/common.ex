@@ -9,17 +9,17 @@ defmodule EliXero.CoreApi.Common do
 		end
 	end
 
-	def find_filtered(client, resource, filter) do
-		resource = resource <> "?" <> filter
-
-		find(client, resource)
-	end
-
-	def find_single(client, resource,  identifier) do
+	def find(client, resource,  identifier) do
 		resource = resource <> "/" <> identifier
 
 		find(client, resource)
 	end
+
+	def filter(client, resource, filter) do
+		resource = resource <> "?" <> filter
+
+		find(client, resource)
+	end	
 
 	def create(client, resource, object_map) do
 		case(Application.get_env(:elixero, :app_type)) do

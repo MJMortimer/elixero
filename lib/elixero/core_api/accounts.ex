@@ -6,12 +6,12 @@ defmodule EliXero.CoreApi.Accounts do
 		EliXero.CoreApi.Common.find(client, @resource)
 	end
 
-	def find_filtered(client, filter) do
-		EliXero.CoreApi.Common.find_filtered(client, @resource, filter)
+	def find(client, identifier) do
+		EliXero.CoreApi.Common.find(client, @resource, identifier)
 	end
 
-	def find_single(client, identifier) do
-		EliXero.CoreApi.Common.find_single(client, @resource, identifier)
+	def filter(client, filter) do
+		EliXero.CoreApi.Common.filter(client, @resource, filter)
 	end
 
 	def create(client, accounts_map) do
