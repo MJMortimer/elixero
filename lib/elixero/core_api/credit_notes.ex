@@ -14,11 +14,11 @@ defmodule EliXero.CoreApi.CreditNotes do
 		EliXero.CoreApi.Common.filter(client, @resource, filter)
 	end
 
-	def create(client, accounts_map) do
-		EliXero.CoreApi.Common.create(client, @resource, accounts_map)
+	def create(client, credit_notes_map) do
+		EliXero.CoreApi.Common.create(client, @resource, credit_notes_map)
 	end
 
-	def update(client, identifier, accounts_map) do
-		EliXero.CoreApi.Common.update(client, @resource, identifier, accounts_map)
+	def update(client, identifier, credit_notes_map) do
+		EliXero.CoreApi.Common.update(client, @resource, identifier, credit_notes_map)
 	end
 end
