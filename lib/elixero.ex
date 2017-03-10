@@ -46,20 +46,4 @@ defmodule EliXero do
 			:partner -> %EliXero.Client{app_type: :partner, access_token: access_token}
 		end
 	end
-
-	def find(client, resource, api_type) do
-		case(Application.get_env(:elixero, :app_type)) do
-			:private -> EliXero.Private.find(resource, api_type)
-			:public -> EliXero.Public.find(client.access_token, resource, api_type)
-			:partner -> EliXero.Partner.find(client.access_token, resource, api_type)
-		end
-	end
-
-	def create(client, resource, api_type, data_map) do
-		case(Application.get_env(:elixero, :app_type)) do
-			:private -> EliXero.Private.create(resource, api_type, data_map)
-			:public -> EliXero.Public.create(client.access_token, resource, api_type, data_map)
-			:partner -> EliXero.Partner.create(client.access_token, resource, api_type, data_map)
-		end
-	end	
 end
