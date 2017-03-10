@@ -11,7 +11,6 @@ defmodule EliXero.Utils.Urls do
 	@payroll_api "payroll.xro/1.0/"
 	@files_api "files.xro/1.0/"
 	@assets_api "assets.xro/1.0/"
-	@payroll_uk_api "payroll.xro/2.0/"
 
 	def request_token do
 		@request_token_url
@@ -32,7 +31,6 @@ defmodule EliXero.Utils.Urls do
 				:payroll -> @payroll_api
 				:files -> @files_api
 				:assets -> @assets_api
-				:payroll_uk -> @payroll_uk_api
 			end
 
 		@base_url <> api <> resource
