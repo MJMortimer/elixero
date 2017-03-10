@@ -27,6 +27,12 @@ defmodule EliXero.Utils.Http do
 		handle_response(response)
 	end
 
+	def delete(url, authorisation_header) do
+		{:ok, response} = HTTPoison.delete url, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}]#, [{:proxy, "127.0.0.1:8888"}]
+
+		handle_response(response)
+	end
+
 	def upload_multipart(url, authorisation_header, path_to_file, multipart_meta_data) do
 
 		{:ok, response} = HTTPoison.post url, {:multipart, multipart_meta_data ++ [{:file, path_to_file}]}, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}]#, [{:proxy, "127.0.0.1:8888"}]

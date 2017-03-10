@@ -21,4 +21,8 @@ defmodule EliXero.CoreApi.Accounts do
 	def update(client, identifier, accounts_map) do
 		EliXero.CoreApi.Common.update(client, @resource, identifier, accounts_map)
 	end
+
+	def delete(client, identifier) do
+		EliXero.CoreApi.Common.delete(client, @resource, identifier)
+	end
 end

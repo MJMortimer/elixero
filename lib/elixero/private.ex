@@ -24,12 +24,9 @@ defmodule EliXero.Private do
 
 		header = EliXero.Utils.Oauth.create_auth_header(method, url, [oauth_token: @oauth_consumer_key], nil)
 		
-		response = 
-			case(method) do
-				"PUT" -> EliXero.Utils.Http.put(url, header, data_map)
-			end
-
-		response
+		case(method) do
+			"PUT" -> EliXero.Utils.Http.put(url, header, data_map)
+		end
 	end
 
 	def update(resource, api_type, data_map) do
@@ -42,12 +39,17 @@ defmodule EliXero.Private do
 
 		header = EliXero.Utils.Oauth.create_auth_header(method, url, [oauth_token: @oauth_consumer_key], nil)
 		
-		response = 
-			case(method) do
-				"POST" -> EliXero.Utils.Http.post(url, header, data_map)
-			end
+		case(method) do
+			"POST" -> EliXero.Utils.Http.post(url, header, data_map)
+		end
+	end
 
-		response
+	def delete(resource, api_type) do
+		url = EliXero.Utils.Urls.api(resource, api_type)
+
+		header = EliXero.Utils.Oauth.create_auth_header("DELETE", url, [oauth_token: @oauth_consumer_key], nil)
+		
+		EliXero.Utils.Http.delete(url, header)
 	end
 
 	def upload_multipart(resource, api_type, path_to_file, name) do
