@@ -86,4 +86,13 @@ defmodule EliXero.Partner do
 
 		EliXero.Utils.Http.upload_multipart(url, header, path_to_file, [{"Name", name}])
 	end		
+
+	def upload_attachment(access_token, resource, api_type, path_to_file, filename, include_online) do
+		url = EliXero.Utils.Urls.api(resource, api_type)
+		url_for_signing = url <> "/" <> String.replace(filename, " ", "%20") <> "?includeonline=" <> ( if include_online, do: "true", else: "false") # spaces work dumb!
+		header = EliXero.Utils.Oauth.create_auth_header("POST", url_for_signing, [oauth_token: access_token["oauth_token"]], nil)
+		
+		url = url <> "/" <> URI.encode(filename, &URI.char_unreserved?(&1)) <> "?includeonline=" <> ( if include_online, do: "true", else: "false")
+		EliXero.Utils.Http.upload_attachment(url, header, path_to_file)
+	end
 end
