@@ -3,7 +3,7 @@ defmodule EliXero.Mixfile do
 
   def project do
     [app: :elixero,
-     version: "0.0.4",
+     version: "0.0.5",
      elixir: "~> 1.3",
      description: description(),
      package: package(),
@@ -24,7 +24,7 @@ defmodule EliXero.Mixfile do
 
   defp description do
     """
-    Xero API client library for elixir
+    Xero API elixir SDK
     """
   end
 
