@@ -1,8 +1,8 @@
 defmodule EliXero.CoreApi.Organisations do
-	@api_type :core	
-	@resource "organisations"
+  @api_type :core  
+  @resource "organisations"
 
-	def find(client) do
-		EliXero.CoreApi.Common.find(client, @resource)
-	end
+  def find(client) do
+    EliXero.CoreApi.Common.find(client, @resource)
+  end
 end
