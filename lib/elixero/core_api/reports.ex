@@ -1,5 +1,5 @@
 defmodule EliXero.CoreApi.Reports do
-  @api_type :core  
+  @api_type :core
   @resource "reports"
 
   def find(client) do

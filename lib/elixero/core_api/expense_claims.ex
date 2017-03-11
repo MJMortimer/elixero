@@ -1,5 +1,5 @@
 defmodule EliXero.CoreApi.ExpenseClaims do
-  @api_type :core  
+  @api_type :core
   @resource "expenseclaims"
 
   def find(client) do

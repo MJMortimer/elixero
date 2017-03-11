@@ -1,5 +1,5 @@
 defmodule EliXero.CoreApi.TrackingCategories do
-  @api_type :core  
+  @api_type :core
   @resource "trackingcategories"
 
   def find(client) do

@@ -25,7 +25,7 @@ defmodule EliXero.Utils.Urls do
   end
 
   def api(resource, api_type) do
-    api = 
+    api =
       case(api_type) do
         :core -> @core_api
         :payroll -> @payroll_api

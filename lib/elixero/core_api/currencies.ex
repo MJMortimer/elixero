@@ -1,5 +1,5 @@
 defmodule EliXero.CoreApi.Currencies do
-  @api_type :core  
+  @api_type :core
   @resource "currencies"
 
   def find(client) do

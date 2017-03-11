@@ -1,5 +1,5 @@
 defmodule EliXero.CoreApi.InvoiceReminders do
-  @api_type :core  
+  @api_type :core
   @resource "invoicereminders"
 
   def settings(client) do

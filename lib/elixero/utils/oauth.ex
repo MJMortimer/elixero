@@ -32,7 +32,7 @@ defmodule EliXero.Utils.Oauth do
       ]
 
     params = additional_params ++ oauth_signing_params
-      
+
     uri_parts = String.split(url, "?")
     url = Enum.at(uri_parts, 0)
 
@@ -43,7 +43,7 @@ defmodule EliXero.Utils.Oauth do
       else
         params
       end
-    
+
     params_with_extras =
       case(form_data) do
         nil -> params_with_extras
@@ -52,8 +52,8 @@ defmodule EliXero.Utils.Oauth do
 
     params_with_extras = Enum.sort(params_with_extras)
 
-    base_string = 
-      method <> "&" <> 
+    base_string =
+      method <> "&" <>
       URI.encode_www_form(url) <> "&" <>
       URI.encode_www_form(
         EliXero.Utils.Helpers.join_params_keyword(params_with_extras, :base_string)
@@ -68,7 +68,7 @@ defmodule EliXero.Utils.Oauth do
 
   def sign(base_string, token) do
     hmac_sha1_sign(base_string, token)
-  end  
+  end
 
   defp signature_method() do
     case(@application_type) do
@@ -90,7 +90,7 @@ defmodule EliXero.Utils.Oauth do
   end
 
   defp hmac_sha1_sign(base_string, token) do
-    key = 
+    key =
       case(token) do
         nil -> @oauth_consumer_secret <> "&"
         _ -> @oauth_consumer_secret <> "&" <> token["oauth_token_secret"]

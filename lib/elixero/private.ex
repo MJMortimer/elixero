@@ -5,7 +5,7 @@ defmodule EliXero.Private do
   #consumer details
   @oauth_consumer_key Application.get_env(:elixero, :consumer_key)
 
-  @user_agent "EliXero - " <> @oauth_consumer_key  
+  @user_agent "EliXero - " <> @oauth_consumer_key
 
   def find(resource, api_type) do
     url = EliXero.Utils.Urls.api(resource, api_type)
@@ -23,7 +23,7 @@ defmodule EliXero.Private do
       end
 
     header = EliXero.Utils.Oauth.create_auth_header(method, url, [oauth_token: @oauth_consumer_key], nil)
-    
+
     case(method) do
       "PUT" -> EliXero.Utils.Http.put(url, header, data_map)
     end
@@ -38,7 +38,7 @@ defmodule EliXero.Private do
       end
 
     header = EliXero.Utils.Oauth.create_auth_header(method, url, [oauth_token: @oauth_consumer_key], nil)
-    
+
     case(method) do
       "POST" -> EliXero.Utils.Http.post(url, header, data_map)
     end
@@ -48,7 +48,7 @@ defmodule EliXero.Private do
     url = EliXero.Utils.Urls.api(resource, api_type)
 
     header = EliXero.Utils.Oauth.create_auth_header("DELETE", url, [oauth_token: @oauth_consumer_key], nil)
-    
+
     EliXero.Utils.Http.delete(url, header)
   end
 

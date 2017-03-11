@@ -1,5 +1,5 @@
-defmodule EliXero.Utils.Http do 
-  
+defmodule EliXero.Utils.Http do
+
   @user_agent "EliXero - " <> Application.get_env(:elixero, :consumer_key)
   @accept "application/json"
   @content_type "application/json"
@@ -15,7 +15,7 @@ defmodule EliXero.Utils.Http do
 
   def put(url, authorisation_header, data_map) do
     {_, payload} = Poison.encode(data_map)
-    
+
     {:ok, response} = HTTPoison.put url, payload, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
     handle_response(response)
@@ -23,7 +23,7 @@ defmodule EliXero.Utils.Http do
 
   def post(url, authorisation_header, data_map) do
     {_, payload} = Poison.encode(data_map)
-    
+
     {:ok, response} = HTTPoison.post url, payload, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
     handle_response(response)

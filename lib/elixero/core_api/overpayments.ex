@@ -1,5 +1,5 @@
 defmodule EliXero.CoreApi.Overpayments do
-  @api_type :core  
+  @api_type :core
   @resource "overpayments"
 
   def find(client) do

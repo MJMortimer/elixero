@@ -1,5 +1,5 @@
 defmodule EliXero.CoreApi.BrandingThemes do
-  @api_type :core  
+  @api_type :core
   @resource "brandingthemes"
 
   def find(client) do

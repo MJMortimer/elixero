@@ -19,7 +19,7 @@ defmodule EliXero.CoreApi.Common do
     resource = resource <> "?" <> filter
 
     find(client, resource)
-  end  
+  end
 
   def create(client, resource, object_map) do
     case(Application.get_env(:elixero, :app_type)) do

@@ -10,5 +10,4 @@ defmodule EliXero.Utils.Helpers do
   def join_params_keyword(keyword, :auth_header) do
     Enum.map_join(keyword, ", ", fn({key, value}) -> Atom.to_string(key) <> "=\"" <> value <> "\"" end)
   end
-
 end

@@ -24,7 +24,7 @@ defmodule EliXero.Public do
     url = EliXero.Utils.Urls.api(resource, api_type)
     header = EliXero.Utils.Oauth.create_auth_header("GET", url, [oauth_token: access_token["oauth_token"]], nil, access_token)
     EliXero.Utils.Http.get(url, header)
-  end  
+  end
 
   def create(access_token, resource, api_type, data_map) do
     url = EliXero.Utils.Urls.api(resource, api_type)
@@ -35,8 +35,8 @@ defmodule EliXero.Public do
       end
 
     header = EliXero.Utils.Oauth.create_auth_header(method, url, [oauth_token: access_token["oauth_token"]], nil, access_token)
-    
-    response = 
+
+    response =
       case(method) do
         "PUT" -> EliXero.Utils.Http.put(url, header, data_map)
       end
@@ -53,8 +53,8 @@ defmodule EliXero.Public do
       end
 
     header = EliXero.Utils.Oauth.create_auth_header(method, url, [oauth_token: access_token["oauth_token"]], nil, access_token)
-    
-    response = 
+
+    response =
       case(method) do
         "POST" -> EliXero.Utils.Http.post(url, header, data_map)
       end
@@ -66,7 +66,7 @@ defmodule EliXero.Public do
     url = EliXero.Utils.Urls.api(resource, api_type)
 
     header = EliXero.Utils.Oauth.create_auth_header("DELETE", url, [oauth_token: access_token["oauth_token"]], nil, access_token)
-    
+
     EliXero.Utils.Http.delete(url, header)
   end
 
@@ -82,7 +82,7 @@ defmodule EliXero.Public do
     url = EliXero.Utils.Urls.api(resource, api_type)
     url_for_signing = url <> "/" <> String.replace(filename, " ", "%20") <> "?includeonline=" <> ( if include_online, do: "true", else: "false") # spaces work dumb!
     header = EliXero.Utils.Oauth.create_auth_header("POST", url_for_signing, [oauth_token: access_token["oauth_token"]], nil, access_token)
-    
+
     url = url <> "/" <> URI.encode(filename, &URI.char_unreserved?(&1)) <> "?includeonline=" <> ( if include_online, do: "true", else: "false")
     EliXero.Utils.Http.upload_attachment(url, header, path_to_file)
   end
