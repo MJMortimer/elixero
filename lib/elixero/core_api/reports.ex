@@ -35,4 +35,4 @@ defmodule EliXero.CoreApi.Reports do
 			:partner -> EliXero.Partner.find(client.access_token, resource, @api_type)
 		end
 	end
-endS
+end

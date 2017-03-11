@@ -37,7 +37,7 @@ defmodule EliXero.CoreApi.TrackingCategories do
 	end
 
 	def update_option(client, category_identifier, option_identifier, options_map) do
-		resource = @resource <> identifier <> "/options" <> option_identifier
+		resource = @resource <> category_identifier <> "/options" <> option_identifier
 
 		case(Application.get_env(:elixero, :app_type)) do
 			:private -> EliXero.Private.create(resource, @api_type, options_map)
@@ -47,7 +47,7 @@ defmodule EliXero.CoreApi.TrackingCategories do
 	end
 
 	def delete_option(client, category_identifier, option_identifier) do
-		resource = @resource <> identifier <> "/options" <> option_identifier
+		resource = @resource <> category_identifier <> "/options" <> option_identifier
 
 		case(Application.get_env(:elixero, :app_type)) do
 			:private -> EliXero.Private.delete(resource, @api_type)
