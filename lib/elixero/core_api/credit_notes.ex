@@ -21,4 +21,9 @@ defmodule EliXero.CoreApi.CreditNotes do
   def update(client, identifier, credit_notes_map) do
     EliXero.CoreApi.Common.update(client, @resource, identifier, credit_notes_map)
   end
+
+  def allocate_credit_note(client, identifier, allocations_map) do
+    resource = @resource <> "/" <> identifier <> "/allocations"
+    EliXero.CoreApi.Common.create(client, resource, allocations_map)
+  end
 end
