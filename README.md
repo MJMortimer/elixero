@@ -23,7 +23,7 @@ Note:
 
 ### Private application usage
 
-Private applications are not required to go through the process of acquiring an access token, authorising it, and then swaping for an access token.
+Private applications are not required to go through the process of acquiring an request token, authorising it, and then swaping it for an access token.
 
 #### Required config variables
 
