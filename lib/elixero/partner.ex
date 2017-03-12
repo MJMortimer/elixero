@@ -35,6 +35,13 @@ defmodule EliXero.Partner do
     EliXero.Utils.Http.get(url, header)
   end
 
+  def find(access_token, resource, api_type, extra_headers) do
+    url = EliXero.Utils.Urls.api(resource, api_type)
+
+    header = EliXero.Utils.Oauth.create_auth_header("GET", url, [oauth_token: access_token["oauth_token"]], nil)
+    EliXero.Utils.Http.get(url, header, extra_headers)
+  end
+
   def create(access_token, resource, api_type, data_map) do
     url = EliXero.Utils.Urls.api(resource, api_type)
 

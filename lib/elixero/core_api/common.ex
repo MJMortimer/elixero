@@ -16,9 +16,25 @@ defmodule EliXero.CoreApi.Common do
   end
 
   def filter(client, resource, filter) do
-    resource = resource <> "?" <> filter
+    resource = 
+      unless filter[:query_filter] == nil do
+        resource <> "?" <> filter[:query_filter]
+      else
+        resource
+      end
 
-    find(client, resource)
+    extra_headers = 
+      unless filter[:modified_since] == nil do
+        [ {"if-modified-since", filter[:modified_since]} ] 
+      else
+        []
+      end    
+
+    case(Application.get_env(:elixero, :app_type)) do
+      :private -> EliXero.Private.find(resource, @api_type, extra_headers)
+      :public -> EliXero.Public.find(client.access_token, resource, @api_type, extra_headers)
+      :partner -> EliXero.Partner.find(client.access_token, resource, @api_type, extra_headers)
+    end
   end
 
   def create(client, resource, object_map) do

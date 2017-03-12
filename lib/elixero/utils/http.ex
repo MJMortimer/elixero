@@ -13,6 +13,14 @@ defmodule EliXero.Utils.Http do
     handle_response(response)
   end
 
+  def get(url, authorisation_header, extra_headers) do
+    headers = [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}] ++ extra_headers
+
+    {:ok, response} = HTTPoison.get url, headers, [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
+
+    handle_response(response)
+  end
+
   def put(url, authorisation_header, data_map) do
     {_, payload} = Poison.encode(data_map)
 
