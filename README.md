@@ -131,6 +131,23 @@ Given your existing access token is in a variable named access_token, this can b
 renewed_access_token = EliXero.renew_access_token access_token
 ```
 
+## Use of filter functions
+
+Some endpoints allow various filter methods when retrieving information from the Xero API. 
+All filtering, with the exception of if-modified-since, is performed via query parameters. If-modified-since is done via headers.
+
+When using filtering, a map outlining what filtering you want needs to be supplied.
+
+Below is an example on how to do this when wantin all ACCREC invoices since the start of 2017:
+
+```
+filter = %{:query_filter => "where=Type==\"ACCREC\"", :modified_since => "2017-01-01"}
+
+EliXero.CoreApi.Invoices.filter cient, filter
+```
+
+Both :query_filter and :modified_since are not required when filtering if you only need to filter by one of them.
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
