@@ -43,8 +43,6 @@ defmodule EliXero.Utils.Urls do
       key <> "=" <> encoded_value 
     end
 
-    IO.inspect query_param_string
-
     url <> "?" <> query_param_string
   end
 
