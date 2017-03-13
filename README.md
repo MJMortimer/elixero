@@ -138,15 +138,15 @@ All filtering, with the exception of if-modified-since, is performed via query p
 
 When using filtering, a map outlining what filtering you want needs to be supplied.
 
-Below is an example on how to do this when wantin all ACCREC invoices since the start of 2017:
+Below is an example on how to do this when you want to retrieve all DRAFT, ACCREC invoices, ordered by Date desc, modified since the start of 2017,:
 
 ```
-filter = %{:query_filter => "where=Type==\"ACCREC\"", :modified_since => "2017-01-01"}
+filter = %{:query_filters => [{"where", "Status==\"DRAFT\" AND Type==\"ACCREC\""}, {"orderby", "Date desc"}], :modified_since => "2017-01-01" }
 
 EliXero.CoreApi.Invoices.filter cient, filter
 ```
 
-Both :query_filter and :modified_since are not required when filtering if you only need to filter by one of them.
+Both :query_filters and :modified_since are not required when filtering if you only need to filter by one of them.
 
 ## Installation
 
