@@ -35,8 +35,8 @@ defmodule EliXero.Partner do
     EliXero.Utils.Http.get(url, header)
   end
 
-  def find(access_token, resource, api_type, extra_headers) do
-    url = EliXero.Utils.Urls.api(resource, api_type)
+  def find(access_token, resource, api_type, query_filters, extra_headers) do
+    url = EliXero.Utils.Urls.api(resource, api_type) |> EliXero.Utils.Urls.append_query_filters(query_filters)
 
     header = EliXero.Utils.Oauth.create_auth_header("GET", url, [oauth_token: access_token["oauth_token"]], nil)
     EliXero.Utils.Http.get(url, header, extra_headers)
@@ -96,7 +96,7 @@ defmodule EliXero.Partner do
 
   def upload_attachment(access_token, resource, api_type, path_to_file, filename, include_online) do
     url = EliXero.Utils.Urls.api(resource, api_type)
-    url_for_signing = url <> "/" <> String.replace(filename, " ", "%20") <> "?includeonline=" <> ( if include_online, do: "true", else: "false") # spaces work dumb!
+    url_for_signing = url <> "/" <> String.replace(filename, " ", "%20") <> "?includeonline=" <> ( if include_online, do: "true", else: "false") # Spaces must be %20 not +
     header = EliXero.Utils.Oauth.create_auth_header("POST", url_for_signing, [oauth_token: access_token["oauth_token"]], nil)
 
     url = url <> "/" <> URI.encode(filename, &URI.char_unreserved?(&1)) <> "?includeonline=" <> ( if include_online, do: "true", else: "false")

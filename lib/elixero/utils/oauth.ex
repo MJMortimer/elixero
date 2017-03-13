@@ -38,7 +38,7 @@ defmodule EliXero.Utils.Oauth do
 
     params_with_extras =
       if (length(uri_parts) > 1) do
-        query_params = Enum.at(uri_parts, 1) |> URI.decode_query |> Enum.map(fn({key, value}) -> {String.to_atom(key), URI.encode_www_form(value)} end)
+        query_params = Enum.at(uri_parts, 1) |> URI.decode_query |> Enum.map(fn({key, value}) -> {String.to_atom(key),  URI.encode_www_form(value) |> String.replace("+", "%20") } end)
         params ++ query_params
       else
         params
@@ -57,7 +57,7 @@ defmodule EliXero.Utils.Oauth do
       URI.encode_www_form(url) <> "&" <>
       URI.encode_www_form(
         EliXero.Utils.Helpers.join_params_keyword(params_with_extras, :base_string)
-      )
+      ) 
 
     {base_string, params}
   end

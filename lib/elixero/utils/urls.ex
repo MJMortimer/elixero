@@ -36,4 +36,16 @@ defmodule EliXero.Utils.Urls do
     @base_url <> api <> resource
   end
 
+  def append_query_filters(url, query_filters) do
+    query_param_string = Enum.map_join query_filters, "&", fn({key, value}) -> 
+      encoded_value = URI.encode(value, &URI.char_unreserved?(&1))
+      encoded_value = String.replace(encoded_value, "+", "%20") # Spaces must be %20 not +
+      key <> "=" <> encoded_value 
+    end
+
+    IO.inspect query_param_string
+
+    url <> "?" <> query_param_string
+  end
+
 end
