@@ -29,7 +29,7 @@ defmodule EliXero.CoreApi.TrackingCategories do
   def add_option(client, identifier, options_map) do
     resource = @resource <> identifier <> "/options"
 
-    case(Application.get_env(:elixero, :app_type)) do
+    case client.app_type do
       :private -> EliXero.Private.create(client.access_token, resource, @api_type, options_map)
       :public -> EliXero.Public.create(client.access_token, resource, @api_type, options_map)
       :partner -> EliXero.Partner.create(client.access_token, resource, @api_type, options_map)
@@ -39,7 +39,7 @@ defmodule EliXero.CoreApi.TrackingCategories do
   def update_option(client, category_identifier, option_identifier, options_map) do
     resource = @resource <> category_identifier <> "/options" <> option_identifier
 
-    case(Application.get_env(:elixero, :app_type)) do
+    case client.app_type do
       :private -> EliXero.Private.create(client.access_token, resource, @api_type, options_map)
       :public -> EliXero.Public.create(client.access_token, resource, @api_type, options_map)
       :partner -> EliXero.Partner.create(client.access_token, resource, @api_type, options_map)
@@ -49,7 +49,7 @@ defmodule EliXero.CoreApi.TrackingCategories do
   def delete_option(client, category_identifier, option_identifier) do
     resource = @resource <> category_identifier <> "/options" <> option_identifier
 
-    case(Application.get_env(:elixero, :app_type)) do
+    case client.app_type do
       :private -> EliXero.Private.delete(client.access_token, resource, @api_type)
       :public -> EliXero.Public.delete(client.access_token, resource, @api_type)
       :partner -> EliXero.Partner.delete(client.access_token, resource, @api_type)

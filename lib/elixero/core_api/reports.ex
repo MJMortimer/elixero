@@ -9,7 +9,7 @@ defmodule EliXero.CoreApi.Reports do
   def named(client, name) do
     resource = @resource <> "/" <> name
 
-    case(Application.get_env(:elixero, :app_type)) do
+    case client.app_type do
       :private -> EliXero.Private.find(client.access_token, resource, @api_type)
       :public -> EliXero.Public.find(client.access_token, resource, @api_type)
       :partner -> EliXero.Partner.find(client.access_token, resource, @api_type)
@@ -19,7 +19,7 @@ defmodule EliXero.CoreApi.Reports do
   def named(client, name, filter) do
     resource = @resource <> "/" <> name <> "?" <> filter
 
-    case(Application.get_env(:elixero, :app_type)) do
+    case client.app_type do
       :private -> EliXero.Private.find(client.access_token, resource, @api_type)
       :public -> EliXero.Public.find(client.access_token, resource, @api_type)
       :partner -> EliXero.Partner.find(client.access_token, resource, @api_type)
@@ -29,7 +29,7 @@ defmodule EliXero.CoreApi.Reports do
   def individual_report(client, identifier) do
     resource = @resource <> "/" <> identifier
 
-    case(Application.get_env(:elixero, :app_type)) do
+    case client.app_type do
       :private -> EliXero.Private.find(client.access_token, resource, @api_type)
       :public -> EliXero.Public.find(client.access_token, resource, @api_type)
       :partner -> EliXero.Partner.find(client.access_token, resource, @api_type)

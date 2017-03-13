@@ -1,10 +1,6 @@
 defmodule EliXero.Partner do
-  #cert details
-  @private_key Application.get_env(:elixero, :private_key_path)
 
-  #consumer details
-  @oauth_consumer_key Application.get_env(:elixero, :consumer_key)
-  @oauth_consumer_secret Application.get_env(:elixero, :consumer_secret)
+  ### OAuth functions
 
   def get_request_token do
     callback_url = Application.get_env(:elixero, :callback_url)
@@ -28,6 +24,8 @@ defmodule EliXero.Partner do
     header = EliXero.Utils.Oauth.create_auth_header("GET", access_token_url, [ oauth_token: access_token["oauth_token"], oauth_session_handle: access_token["oauth_session_handle"] ], nil)
     EliXero.Utils.Http.get(access_token_url, header)
   end
+
+  ### API functions
 
   def find(access_token, resource, api_type) do
     url = EliXero.Utils.Urls.api(resource, api_type)

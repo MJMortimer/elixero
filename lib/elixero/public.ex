@@ -1,7 +1,6 @@
 defmodule EliXero.Public do
-  #consumer details
-  @oauth_consumer_key Application.get_env(:elixero, :consumer_key)
-  @oauth_consumer_secret Application.get_env(:elixero, :consumer_secret)
+
+  ### OAuth functions 
 
   def get_request_token do
     callback_url = Application.get_env(:elixero, :callback_url)
@@ -19,6 +18,8 @@ defmodule EliXero.Public do
     header = EliXero.Utils.Oauth.create_auth_header("GET", access_token_url, [oauth_token: request_token["oauth_token"], oauth_verifier: verifier], nil, request_token)
     EliXero.Utils.Http.get(access_token_url, header)
   end
+
+  ### Api functions
 
   def find(access_token, resource, api_type) do
     url = EliXero.Utils.Urls.api(resource, api_type)
@@ -79,7 +80,7 @@ defmodule EliXero.Public do
   def upload_multipart(access_token, resource, api_type, path_to_file, name) do
     url = EliXero.Utils.Urls.api(resource, api_type)
 
-    header = EliXero.Utils.Oauth.create_auth_header("POST", url, [oauth_token: @oauth_consumer_key], [Name: name], access_token)
+    header = EliXero.Utils.Oauth.create_auth_header("POST", url, [oauth_token: access_token["oauth_token"]], [Name: name], access_token)
 
     EliXero.Utils.Http.upload_multipart(url, header, path_to_file, [{"Name", name}])
   end

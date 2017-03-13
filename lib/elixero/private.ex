@@ -1,6 +1,4 @@
 defmodule EliXero.Private do
-  #cert details
-  @private_key Application.get_env(:elixero, :private_key_path)
 
   def find(access_token, resource, api_type) do
     url = EliXero.Utils.Urls.api(resource, api_type)
