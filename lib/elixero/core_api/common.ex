@@ -3,7 +3,7 @@ defmodule EliXero.CoreApi.Common do
 
   def find(client, resource) do
     case(Application.get_env(:elixero, :app_type)) do
-      :private -> EliXero.Private.find(resource, @api_type)
+      :private -> EliXero.Private.find(client.access_token, resource, @api_type)
       :public -> EliXero.Public.find(client.access_token, resource, @api_type)
       :partner -> EliXero.Partner.find(client.access_token, resource, @api_type)
     end
@@ -26,7 +26,7 @@ defmodule EliXero.CoreApi.Common do
       end      
 
     case(Application.get_env(:elixero, :app_type)) do
-      :private -> EliXero.Private.find(resource, @api_type, query_filters, extra_headers)
+      :private -> EliXero.Private.find(client.access_token, resource, @api_type, query_filters, extra_headers)
       :public -> EliXero.Public.find(client.access_token, resource, @api_type, query_filters, extra_headers)
       :partner -> EliXero.Partner.find(client.access_token, resource, @api_type, query_filters, extra_headers)
     end
@@ -34,7 +34,7 @@ defmodule EliXero.CoreApi.Common do
 
   def create(client, resource, object_map) do
     case(Application.get_env(:elixero, :app_type)) do
-      :private -> EliXero.Private.create(resource, @api_type, object_map)
+      :private -> EliXero.Private.create(client.access_token, resource, @api_type, object_map)
       :public -> EliXero.Public.create(client.access_token, resource, @api_type, object_map)
       :partner -> EliXero.Partner.create(client.access_token, resource, @api_type, object_map)
     end
@@ -44,7 +44,7 @@ defmodule EliXero.CoreApi.Common do
     resource = resource <> "/" <> identifier
 
     case(Application.get_env(:elixero, :app_type)) do
-      :private -> EliXero.Private.update(resource, @api_type, object_map)
+      :private -> EliXero.Private.update(client.access_token, resource, @api_type, object_map)
       :public -> EliXero.Public.update(client.access_token, resource, @api_type, object_map)
       :partner -> EliXero.Partner.update(client.access_token, resource, @api_type, object_map)
     end
@@ -54,7 +54,7 @@ defmodule EliXero.CoreApi.Common do
     resource = resource <> "/" <> identifier
 
     case(Application.get_env(:elixero, :app_type)) do
-      :private -> EliXero.Private.delete(resource, @api_type)
+      :private -> EliXero.Private.delete(client.access_token, resource, @api_type)
       :public -> EliXero.Public.find(client.access_token, resource, @api_type)
       :partner -> EliXero.Partner.find(client.access_token, resource, @api_type)
     end

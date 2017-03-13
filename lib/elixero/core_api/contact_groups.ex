@@ -26,7 +26,7 @@ defmodule EliXero.CoreApi.ContactGroups do
     resource = @resource <> "/" <> identifier <> "/contacts"
 
     case(Application.get_env(:elixero, :app_type)) do
-      :private -> EliXero.Private.create(resource, @api_type, contacts_map)
+      :private -> EliXero.Private.create(client.access_token, resource, @api_type, contacts_map)
       :public -> EliXero.Public.create(client.access_token, resource, @api_type, contacts_map)
       :partner -> EliXero.Partner.create(client.access_token, resource, @api_type, contacts_map)
     end
@@ -36,7 +36,7 @@ defmodule EliXero.CoreApi.ContactGroups do
     resource = @resource <> "/" <> contact_group_identifier <> "/contacts/" <> contact_identifier
 
     case(Application.get_env(:elixero, :app_type)) do
-      :private -> EliXero.Private.delete(resource, @api_type)
+      :private -> EliXero.Private.delete(client.access_token, resource, @api_type)
       :public -> EliXero.Public.delete(client.access_token, resource, @api_type)
       :partner -> EliXero.Partner.delete(client.access_token, resource, @api_type)
     end
@@ -46,7 +46,7 @@ defmodule EliXero.CoreApi.ContactGroups do
     resource = @resource <> "/" <> identifier <> "/contacts"
 
     case(Application.get_env(:elixero, :app_type)) do
-      :private -> EliXero.Private.delete(resource, @api_type)
+      :private -> EliXero.Private.delete(client.access_token, resource, @api_type)
       :public -> EliXero.Public.delete(client.access_token, resource, @api_type)
       :partner -> EliXero.Partner.delete(client.access_token, resource, @api_type)
     end

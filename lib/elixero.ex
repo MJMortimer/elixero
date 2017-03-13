@@ -33,7 +33,7 @@ defmodule EliXero do
 
   def create_client do
     case(Application.get_env(:elixero, :app_type)) do
-      :private -> %EliXero.Client{app_type: :private}
+      :private -> %EliXero.Client{app_type: :private, access_token: %{"oauth_token" => Application.get_env(:elixero, :consumer_key)}}
       :public -> raise "Nope. Access token required"
       :partner -> raise "Nope. Access token required"
     end

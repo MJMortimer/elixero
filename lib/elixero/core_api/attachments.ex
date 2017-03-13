@@ -18,7 +18,7 @@ defmodule EliXero.CoreApi.Attachments do
     resource = endpoint <> "/" <> identifier <> "/" <> @resource
 
     case(Application.get_env(:elixero, :app_type)) do
-      :private -> EliXero.Private.upload_attachment(resource, @api_type, file_path, filename, include_online)
+      :private -> EliXero.Private.upload_attachment(client.access_token, resource, @api_type, file_path, filename, include_online)
       :public -> EliXero.Public.upload_attachment(client.access_token, resource, @api_type, file_path, filename, include_online)
       :partner -> EliXero.Partner.upload_attachment(client.access_token, resource, @api_type, file_path, filename, include_online)
     end
