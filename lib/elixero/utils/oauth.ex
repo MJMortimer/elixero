@@ -4,23 +4,23 @@ defmodule EliXero.Utils.Oauth do
   @application_type Application.get_env(:elixero, :app_type)
   @private_key Application.get_env(:elixero, :private_key_path)
 
-  def create_auth_header(method, url, additional_params, form_data, token) do
-    {base_string, oauth_params} = create_oauth_context(method, url, additional_params, form_data)
+  def create_auth_header(method, url, additional_params, token) do
+    {base_string, oauth_params} = create_oauth_context(method, url, additional_params)
 
     signature = sign(base_string, token)
 
     "OAuth oauth_signature=\"" <> signature <> "\", " <> EliXero.Utils.Helpers.join_params_keyword(oauth_params, :auth_header)
   end
 
-  def create_auth_header(method, url, additional_params, form_data) do
-    {base_string, oauth_params} = create_oauth_context(method, url, additional_params, form_data)
+  def create_auth_header(method, url, additional_params) do
+    {base_string, oauth_params} = create_oauth_context(method, url, additional_params)
 
     signature = sign(base_string)
 
     "OAuth oauth_signature=\"" <> signature <> "\", " <> EliXero.Utils.Helpers.join_params_keyword(oauth_params, :auth_header)
   end
 
-  defp create_oauth_context(method, url, additional_params, form_data) do
+  defp create_oauth_context(method, url, additional_params) do
     timestamp = Float.to_string(Float.floor(:os.system_time(:milli_seconds) / 1000), decimals: 0)
 
     oauth_signing_params = [
@@ -42,13 +42,7 @@ defmodule EliXero.Utils.Oauth do
         params ++ query_params
       else
         params
-      end
-
-    params_with_extras =
-      case(form_data) do
-        nil -> params_with_extras
-        _ -> params_with_extras ++ form_data
-      end
+      end    
 
     params_with_extras = Enum.sort(params_with_extras)
 

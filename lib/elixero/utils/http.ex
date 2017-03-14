@@ -43,14 +43,17 @@ defmodule EliXero.Utils.Http do
     handle_response(response)
   end
 
-  def upload_multipart(url, authorisation_header, path_to_file, multipart_meta_data) do
+  def post_multipart(url, authorisation_header, path_to_file, name) do
+    # The Xero Files API grabs the filename out of the content-disposition header of the multipart file request.
+    # Hackney sets this to be the filename from the path of the file. We need to override it
+    content_disposition_overload = "form-data; filename=\"" <> name <> "\"" 
 
-    {:ok, response} = HTTPoison.post url, {:multipart, multipart_meta_data ++ [{:file, path_to_file}]}, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
+    {:ok, response} = HTTPoison.post url, {:multipart, [{:file, path_to_file, [{"Content-Disposition", content_disposition_overload}]}]}, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] ++ [{:proxy, "127.0.0.1:8888"}]
 
     handle_response(response)
   end
 
-  def upload_attachment(url, authorisation_header, path_to_file) do
+  def post_file(url, authorisation_header, path_to_file) do
     {:ok, response} = HTTPoison.post url, {:file, path_to_file}, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
     handle_attachment_response(response)
