@@ -1,5 +1,4 @@
 defmodule EliXero.CoreApi.BankTransactions do
-  @api_type :core
   @resource "banktransactions"
 
   def find(client) do

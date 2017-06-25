@@ -1,5 +1,4 @@
 defmodule EliXero.CoreApi.TaxRates do
-  @api_type :core
   @resource "taxrates"
 
   def find(client) do

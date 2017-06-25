@@ -2,7 +2,6 @@ defmodule EliXero.Utils.Http do
 
   @user_agent "EliXero - " <> Application.get_env(:elixero, :consumer_key)
   @accept "application/json"
-  @content_type "application/json"
 
   @connection_timeout 330000
 

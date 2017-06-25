@@ -1,5 +1,4 @@
 defmodule EliXero.CoreApi.PurchaseOrders do
-  @api_type :core
   @resource "purchaseorders"
 
   def find(client) do
