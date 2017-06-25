@@ -21,7 +21,7 @@ defmodule EliXero.Utils.Oauth do
   end
 
   defp create_oauth_context(method, url, additional_params) do
-    timestamp = Float.to_string(Float.floor(:os.system_time(:milli_seconds) / 1000), decimals: 0)
+    timestamp = :erlang.float_to_binary(Float.floor(:os.system_time(:milli_seconds) / 1000), [{:decimals, 0}])
 
     oauth_signing_params = [
         oauth_consumer_key: @oauth_consumer_key,
