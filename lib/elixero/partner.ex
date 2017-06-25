@@ -3,7 +3,7 @@ defmodule EliXero.Partner do
   ### OAuth functions
 
   def get_request_token do
-    callback_url = Application.get_env(:elixero, :callback_url)
+    callback_url = URI.encode(Application.get_env(:elixero, :callback_url), &URI.char_unreserved?(&1))
     request_token_url = EliXero.Utils.Urls.request_token
     header = EliXero.Utils.Oauth.create_auth_header("GET", request_token_url, [oauth_callback: callback_url])
     EliXero.Utils.Http.get(request_token_url, header)
