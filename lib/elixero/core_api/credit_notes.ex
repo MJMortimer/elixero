@@ -1,5 +1,4 @@
 defmodule EliXero.CoreApi.CreditNotes do
-  @api_type :core
   @resource "creditnotes"
 
   def find(client) do

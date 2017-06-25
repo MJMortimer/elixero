@@ -1,5 +1,4 @@
 defmodule EliXero.CoreApi.LinkedTransactions do
-  @api_type :core
   @resource "linkedtransactions"
 
   def find(client) do

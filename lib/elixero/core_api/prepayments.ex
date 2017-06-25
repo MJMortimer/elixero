@@ -1,5 +1,4 @@
 defmodule EliXero.CoreApi.Prepayments do
-  @api_type :core
   @resource "prepayments"
 
   def find(client) do

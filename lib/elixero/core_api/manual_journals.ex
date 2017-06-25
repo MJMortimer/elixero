@@ -1,5 +1,4 @@
 defmodule EliXero.CoreApi.ManualJournals do
-  @api_type :core
   @resource "manualjournals"
 
   def find(client) do

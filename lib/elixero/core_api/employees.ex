@@ -1,5 +1,4 @@
 defmodule EliXero.CoreApi.Employees do
-  @api_type :core
   @resource "employees"
 
   def find(client) do
