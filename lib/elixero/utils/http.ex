@@ -9,7 +9,8 @@ defmodule EliXero.Utils.Http do
 
     {:ok, response} = HTTPoison.get url, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
-    handle_response(response)
+    response
+    #handle_response(response)
   end
 
   def get(url, authorisation_header, extra_headers) do
@@ -17,7 +18,8 @@ defmodule EliXero.Utils.Http do
 
     {:ok, response} = HTTPoison.get url, headers, [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
-    handle_response(response)
+    response
+    #handle_response(response)
   end
 
   def put(url, authorisation_header, data_map) do
@@ -25,7 +27,8 @@ defmodule EliXero.Utils.Http do
 
     {:ok, response} = HTTPoison.put url, payload, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
-    handle_response(response)
+    response
+    #handle_response(response)
   end
 
   def post(url, authorisation_header, data_map) do
@@ -33,13 +36,15 @@ defmodule EliXero.Utils.Http do
 
     {:ok, response} = HTTPoison.post url, payload, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
-    handle_response(response)
+    response
+    #handle_response(response)
   end
 
   def delete(url, authorisation_header) do
     {:ok, response} = HTTPoison.delete url, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
-    handle_response(response)
+    response
+    #handle_response(response)
   end
 
   def post_multipart(url, authorisation_header, path_to_file, name) do
