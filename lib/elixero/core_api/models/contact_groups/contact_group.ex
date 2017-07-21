@@ -1,11 +1,14 @@
 defmodule EliXero.CoreApi.Models.ContactGroups.ContactGroup do
-    defstruct [
-        :ContactGroupID,
-        :Name,
-        :Status,
-        :Contacts,
-        :ValidationErrors,
-        :Warnings,
-        :StatusAttributeString 
-    ]
+    use Ecto.Schema
+    @derive {Poison.Encoder, except: [:__meta__]}
+
+    schema "contactgroups" do
+        field :ContactGroupID, Ecto.UUID
+        field :Name, :string
+        field :Status, :string
+        embeds_many :Contacts, EliXero.CoreApi.Models.Contacts.Contact
+        embeds_many :ValidationErrors, EliXero.CoreApi.Models.Common.Error
+        embeds_many :Warnings, EliXero.CoreApi.Models.Common.Warning
+        field :StatusAttributeString, :string
+    end
 end

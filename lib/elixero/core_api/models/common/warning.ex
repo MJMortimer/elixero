@@ -1,3 +1,8 @@
 defmodule EliXero.CoreApi.Models.Common.Warning do
-    defstruct [:Message]
+    use Ecto.Schema
+    @derive {Poison.Encoder, except: [:__meta__]}
+
+    schema "errors" do
+        field :Message, :string
+    end
 end

@@ -1,11 +1,14 @@
 defmodule EliXero.CoreApi.Models.BrandingThemes.BrandingTheme do
-    defstruct [
-        :BrandingThemeID,
-        :CreatedDateUTC,
-        :Name,
-        :SortOrder,
-        :ValidationErrors,
-        :Warnings,
-        :StatusAttributeString  
-    ]
+    use Ecto.Schema
+    @derive {Poison.Encoder, except: [:__meta__]}
+
+    schema "brandingthemes" do
+        field :BrandingThemeID, Ecto.UUID
+        field :CreatedDateUTC, :string
+        field :Name, :string
+        field :SortOrder, :integer
+        embeds_many :ValidationErrors, EliXero.CoreApi.Models.Common.Error
+        embeds_many :Warnings, EliXero.CoreApi.Models.Common.Warning
+        field :StatusAttributeString, :string
+    end
 end

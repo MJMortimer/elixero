@@ -27,6 +27,6 @@ defmodule EliXero.CoreApi.Contacts do
   end
 
   defp as_contacts(json_body) do
-    EliXero.CoreApi.Models.Contacts.from_json_string json_body
+    Poison.decode json_body, as: %EliXero.CoreApi.Models.Contacts{}
   end
 end
