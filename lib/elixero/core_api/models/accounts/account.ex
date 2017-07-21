@@ -11,7 +11,7 @@ defmodule EliXero.CoreApi.Models.Accounts.Account do
         field :BankAccountType, :string
         field :TaxType, :string
         field :Description, :string
-        field :Class, :string,
+        field :Class, :string
         field :SystemAccount, :string
         field :EnablePaymentsToAccount, :boolean
         field :ShowInExpenseClaims, :boolean
@@ -20,7 +20,7 @@ defmodule EliXero.CoreApi.Models.Accounts.Account do
         field :ReportingCode, :string
         field :ReportingCodeName, :string
         field :HasAttachments, :boolean
-        field :UpdatedDateUTC :string
+        field :UpdatedDateUTC, :string
         embeds_many :ValidationErrors, EliXero.CoreApi.Models.Common.Error
         embeds_many :Warnings, EliXero.CoreApi.Models.Common.Warning
         field :StatusAttributeString, :string        
