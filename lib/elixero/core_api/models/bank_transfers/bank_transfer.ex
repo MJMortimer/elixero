@@ -1,6 +1,20 @@
 defmodule EliXero.CoreApi.Models.BankTransfers.BankTransfer do
     use Ecto.Schema
+    import Ecto.Changeset
+
     @derive {Poison.Encoder, except: [:__meta__, :id]}
+
+    @fields [
+        :BankTransferID,
+        :FromBankTransactionID,
+        :ToBankTransactionID,
+        :CurrencyRate,
+        :Amount,
+        :Date,
+        :HasAttachments,
+        :UpdatedDateUTC,
+        :StatusAttributeString,
+    ]
 
     schema "banktransfers" do
         field :BankTransferID, Ecto.UUID
@@ -16,5 +30,14 @@ defmodule EliXero.CoreApi.Models.BankTransfers.BankTransfer do
         embeds_many :ValidationErrors, EliXero.CoreApi.Models.Common.Error
         embeds_many :Warnings, EliXero.CoreApi.Models.Common.Warning
         field :StatusAttributeString, :string  
+    end
+
+    def changeset(struct, data) do
+        struct
+        |> cast(data, @fields)
+        |> cast_embed(:FromBankAccount)
+        |> cast_embed(:ToBankAccount)
+        |> cast_embed(:ValidationErrors)
+        |> cast_embed(:Warnings)
     end
 end
