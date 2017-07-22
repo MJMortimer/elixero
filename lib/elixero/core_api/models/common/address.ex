@@ -1,5 +1,7 @@
 defmodule EliXero.CoreApi.Models.Common.Address do
     use Ecto.Schema
+    import Ecto.Changeset
+
     @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "addresses" do
@@ -16,5 +18,28 @@ defmodule EliXero.CoreApi.Models.Common.Address do
         embeds_many :ValidationErrors, EliXero.CoreApi.Models.Common.Error
         embeds_many :Warnings, EliXero.CoreApi.Models.Common.Warning
         field :StatusAttributeString, :string
+    end
+
+    def changeset(struct, data) do
+        struct 
+        |> cast(data, fields())
+        |> cast_embed(:ValidationErrors)
+        |> cast_embed(:Warnings)
+    end
+
+    defp fields() do
+        [
+            :AddressType,
+            :AddressLine1,
+            :AddressLine2,
+            :AddressLine3,
+            :AddressLine4,
+            :City,
+            :Region,
+            :PostalCode,
+            :Country,
+            :AttentionTo,
+            :StatusAttributeString
+        ]
     end
 end

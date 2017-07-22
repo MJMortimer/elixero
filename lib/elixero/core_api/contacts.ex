@@ -1,32 +1,29 @@
 defmodule EliXero.CoreApi.Contacts do
   @resource "contacts"
+  @model_module EliXero.CoreApi.Models.Contacts
 
   def find(client) do
-    response = EliXero.CoreApi.Common.find(client, @resource)
-    as_contacts response.body
+    EliXero.CoreApi.Common.find(client, @resource) 
+    |> EliXero.CoreApi.Utils.ResponseHandler.handle_response(@model_module)
   end
 
   def find(client, identifier) do
-    response = EliXero.CoreApi.Common.find(client, @resource, identifier)
-    as_contacts response.body
+    EliXero.CoreApi.Common.find(client, @resource, identifier) 
+    |> EliXero.CoreApi.Utils.ResponseHandler.handle_response(@model_module)
   end
 
   def filter(client, filter) do
-    response = EliXero.CoreApi.Common.filter(client, @resource, filter)
-    as_contacts response.body
+    EliXero.CoreApi.Common.filter(client, @resource, filter) 
+    |> EliXero.CoreApi.Utils.ResponseHandler.handle_response(@model_module)
   end
 
   def create(client, contacts_map) do
-    response = EliXero.CoreApi.Common.create(client, @resource, contacts_map)
-    as_contacts response.body
+    EliXero.CoreApi.Common.create(client, @resource, contacts_map) 
+    |> EliXero.CoreApi.Utils.ResponseHandler.handle_response(@model_module)
   end
 
   def update(client, identifier, contacts_map) do
-    response = EliXero.CoreApi.Common.update(client, @resource, identifier, contacts_map)
-    as_contacts response.body
-  end
-
-  defp as_contacts(json_body) do
-    Poison.decode json_body, as: %EliXero.CoreApi.Models.Contacts{}
+    EliXero.CoreApi.Common.update(client, @resource, identifier, contacts_map) 
+    |> EliXero.CoreApi.Utils.ResponseHandler.handle_response(@model_module)
   end
 end
