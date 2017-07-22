@@ -1,8 +1,8 @@
-defmodule EliXero.CoreApi.Models.ManualJournals.ManualJournal do
+defmodule EliXero.CoreApi.Models.ManualJournals.ManualJournal.JournalLine do
     use Ecto.Schema
     @derive {Poison.Encoder, except: [:__meta__, :id]}
 
-    schema "manualjournals" do
+    schema "journallines" do
         field :Description, :string
         field :LineAmount, :decimal
         field :AccountCode, :string
