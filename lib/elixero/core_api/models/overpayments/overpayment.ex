@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Overpayments.Overpayment do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "overpayments" do
         field :OverpaymentID, Ecto.UUID

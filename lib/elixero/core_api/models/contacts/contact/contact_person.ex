@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Contacts.Contact.ContactPerson do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "contactpersons" do
         field :ContactPersonID, Ecto.UUID

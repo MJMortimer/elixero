@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.ExpenseClaims.ExpenseClaim do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "ExpenseClaims" do
         field :ExpenseClaimID, Ecto.UUID

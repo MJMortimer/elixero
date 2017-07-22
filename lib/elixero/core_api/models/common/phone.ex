@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Common.Phone do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "phones" do
         field :PhoneType, :string

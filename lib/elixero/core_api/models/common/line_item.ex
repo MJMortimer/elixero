@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Common.LineItem do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "lineitems" do
         field :LineItemID, Ecto.UUID

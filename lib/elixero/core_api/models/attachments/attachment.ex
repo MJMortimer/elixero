@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Attachments.Attachment do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "attachments" do
         field :AttachmentID, Ecto.UUID

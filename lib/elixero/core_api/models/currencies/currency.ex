@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Currencies.Currency do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "currencies" do
         field :Code, :string

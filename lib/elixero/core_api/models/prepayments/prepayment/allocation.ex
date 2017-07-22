@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Prepayments.Prepayment.Allocation do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "allocations" do
         embeds_one :Prepayment, EliXero.CoreApi.Models.Prepayments.Prepayment

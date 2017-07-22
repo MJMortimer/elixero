@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Common.PaymentTerms.Terms do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "terms" do
         field :Day, :integer

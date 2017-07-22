@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Contacts.Contact.TrackingCategory do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
     
     schema "trackingcategories" do
         field :TrackingCategoryName, :string

@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.BankTransactions.BankTransaction do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "banktransactions" do
         field :BankTransactionID, Ecto.UUID

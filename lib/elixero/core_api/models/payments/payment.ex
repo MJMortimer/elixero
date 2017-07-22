@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Payments.Payment do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "payments" do
         field :PaymentID, Ecto.UUID

@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.CreditNotes.CreditNote do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "creditnotes" do
         field :CreditNoteID, Ecto.UUID

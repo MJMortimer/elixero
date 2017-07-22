@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Users.User do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "users" do
         field :UserID, Ecto.UUID

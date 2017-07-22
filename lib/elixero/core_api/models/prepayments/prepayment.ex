@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Prepayments.Prepayment do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "prepayments" do
         field :PrepaymentID, Ecto.UUID

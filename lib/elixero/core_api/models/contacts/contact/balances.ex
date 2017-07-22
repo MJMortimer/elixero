@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Contacts.Contact.Balances do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "balances" do
         embeds_one :AccountsReceivable, EliXero.CoreApi.Models.Contacts.Contact.Balances.Balance

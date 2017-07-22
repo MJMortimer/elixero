@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Contacts.Contact.BatchPayments do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "batchpayments" do
         field :BankAccountNumber, :string

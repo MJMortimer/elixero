@@ -1,6 +1,6 @@
 defmodule EliXero.CoreApi.Models.Common.ExternalLink do
     use Ecto.Schema
-    @derive {Poison.Encoder, except: [:__meta__]}
+    @derive {Poison.Encoder, except: [:__meta__, :id]}
 
     schema "externallinks" do
         field :LinkType, :string
