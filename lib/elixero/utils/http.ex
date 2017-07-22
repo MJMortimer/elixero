@@ -60,7 +60,8 @@ defmodule EliXero.Utils.Http do
   def post_file(url, authorisation_header, path_to_file) do
     {:ok, response} = HTTPoison.post url, {:file, path_to_file}, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
-    handle_attachment_response(response)
+    response
+    #handle_attachment_response(response)
   end
 
   defp handle_response(response) do
