@@ -2,7 +2,7 @@ defmodule EliXero.CoreApi.Models.Common.LineItems.TrackingCategory do
     use Ecto.Schema
     @derive {Poison.Encoder, except: [:__meta__, :id]}
 
-    schema "banktransactions" do
+    schema "trackingcategories" do
         field :TrackingCategoryID, Ecto.UUID
         field :Name, :string
         field :Option, :string
