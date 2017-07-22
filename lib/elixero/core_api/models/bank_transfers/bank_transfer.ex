@@ -5,7 +5,7 @@ defmodule EliXero.CoreApi.Models.BankTransfers.BankTransfer do
     schema "banktransfers" do
         field :BankTransferID, Ecto.UUID
         embeds_one :FromBankAccount, EliXero.CoreApi.Models.Accounts.Account
-        embeds_one :ToBankAccount, EliXero.CoreApi.Models.Accounts.Accountfield :BankTransferID, Ecto.UUIDfield :BankTransferID, Ecto.UUID
+        embeds_one :ToBankAccount, EliXero.CoreApi.Models.Accounts.Account
         field :FromBankTransactionID, Ecto.UUID
         field :ToBankTransactionID, Ecto.UUID
         field :CurrencyRate, :decimal
