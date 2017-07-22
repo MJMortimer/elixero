@@ -4,6 +4,33 @@ defmodule EliXero.CoreApi.Models.Contacts.Contact do
 
     @derive {Poison.Encoder, except: [:__meta__, :id]}
 
+    @fields [        
+        :ContactID,
+        :ContactStatus,
+        :Name,
+        :ContactNumber,
+        :FirstName,
+        :LastName,
+        :EmailAddress,
+        :SkypeUserName,
+        :BankAccountDetails,
+        :TaxNumber,
+        :AccountsReceivableTaxType,
+        :AccountsPayableTaxType,
+        :IsSupplier,
+        :IsCustomer,
+        :DefaultCurrency,
+        :Website,
+        :Discount,
+        :XeroNetworkKey,
+        :HasAttachments,
+        :PurchasesDefaultAccountCode,
+        :SalesDefaultAccountCode,
+        :AccountNumber,
+        :UpdatedDateUTC,
+        :StatusAttributeString,
+    ]
+
     schema "contacts" do
         field :ContactID, Ecto.UUID
         field :ContactStatus, :string
@@ -45,7 +72,7 @@ defmodule EliXero.CoreApi.Models.Contacts.Contact do
 
     def changeset(struct, data) do
         struct 
-        |> cast(data, fields())
+        |> cast(data, @fields)
         |> cast_embed(:SalesTrackingCategories)
         |> cast_embed(:PurchasesTrackingCategories)
         |> cast_embed(:BrandingTheme)
@@ -58,34 +85,5 @@ defmodule EliXero.CoreApi.Models.Contacts.Contact do
         |> cast_embed(:ContactGroups)
         |> cast_embed(:ValidationErrors)
         |> cast_embed(:Warnings)
-    end
-
-    defp fields() do
-        [        
-        :ContactID,
-        :ContactStatus,
-        :Name,
-        :ContactNumber,
-        :FirstName,
-        :LastName,
-        :EmailAddress,
-        :SkypeUserName,
-        :BankAccountDetails,
-        :TaxNumber,
-        :AccountsReceivableTaxType,
-        :AccountsPayableTaxType,
-        :IsSupplier,
-        :IsCustomer,
-        :DefaultCurrency,
-        :Website,
-        :Discount,
-        :XeroNetworkKey,
-        :HasAttachments,
-        :PurchasesDefaultAccountCode,
-        :SalesDefaultAccountCode,
-        :AccountNumber,
-        :UpdatedDateUTC,
-        :StatusAttributeString,
-        ]
-    end
+    end    
 end
