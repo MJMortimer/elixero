@@ -13,5 +13,14 @@ defmodule EliXero.CoreApi.Models.BankTransactions do
         |> cast(data, [])
         |> cast_embed(:BankTransactions)
         |> apply_changes
+    end    
+
+    def from_validation_exception(data) do
+        remapped_data = %{:BankTransactions => data."Elements"}
+        
+        %__MODULE__{}
+        |> cast(remapped_data, [])
+        |> cast_embed(:BankTransactions)
+        |> apply_changes
     end
 end

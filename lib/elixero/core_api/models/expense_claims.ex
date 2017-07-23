@@ -14,4 +14,13 @@ defmodule EliXero.CoreApi.Models.ExpenseClaims do
         |> cast_embed(:ExpenseClaims)
         |> apply_changes
     end
+
+    def from_validation_exception(data) do
+        remapped_data = %{:ExpenseClaims => data."Elements"}
+        
+        %__MODULE__{}
+        |> cast(remapped_data, [])
+        |> cast_embed(:ExpenseClaims)
+        |> apply_changes
+    end
 end

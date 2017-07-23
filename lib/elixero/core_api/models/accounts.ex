@@ -14,4 +14,13 @@ defmodule EliXero.CoreApi.Models.Accounts do
         |> cast_embed(:Accounts)
         |> apply_changes
     end
+
+    def from_validation_exception(data) do
+        remapped_data = %{:Accounts => data."Elements"}
+
+        %__MODULE__{}
+        |> cast(remapped_data, [])
+        |> cast_embed(:Accounts)
+        |> apply_changes
+    end
 end

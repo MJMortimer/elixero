@@ -14,4 +14,13 @@ defmodule EliXero.CoreApi.Models.Overpayments do
         |> cast_embed(:Overpayments)
         |> apply_changes
     end
+
+    def from_validation_exception(data) do
+        remapped_data = %{:Overpayments => data."Elements"}
+        
+        %__MODULE__{}
+        |> cast(remapped_data, [])
+        |> cast_embed(:Overpayments)
+        |> apply_changes
+    end
 end

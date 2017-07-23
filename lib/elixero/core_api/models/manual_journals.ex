@@ -14,4 +14,13 @@ defmodule EliXero.CoreApi.Models.ManualJournals do
         |> cast_embed(:ManualJournals)
         |> apply_changes
     end
+
+    def from_validation_exception(data) do
+        remapped_data = %{:ManualJournals => data."Elements"}
+        
+        %__MODULE__{}
+        |> cast(remapped_data, [])
+        |> cast_embed(:ManualJournals)
+        |> apply_changes
+    end
 end

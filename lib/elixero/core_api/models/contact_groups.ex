@@ -13,4 +13,13 @@ defmodule EliXero.CoreApi.Models.ContactGroups do
         |> cast_embed(:ContactGroups)
         |> apply_changes
     end
+
+    def from_validation_exception(data) do
+        remapped_data = %{:ContactGroups => data."Elements"}
+        
+        %__MODULE__{}
+        |> cast(remapped_data, [])
+        |> cast_embed(:ContactGroups)
+        |> apply_changes
+    end
 end

@@ -14,4 +14,13 @@ defmodule EliXero.CoreApi.Models.Allocations do
         |> cast_embed(:Allocations)
         |> apply_changes
     end
+
+    def from_validation_exception(data) do
+        remapped_data = %{:Allocations => data."Elements"}
+        
+        %__MODULE__{}
+        |> cast(remapped_data, [])
+        |> cast_embed(:Allocations)
+        |> apply_changes
+    end
 end

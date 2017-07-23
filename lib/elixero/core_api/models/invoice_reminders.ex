@@ -14,4 +14,13 @@ defmodule EliXero.CoreApi.Models.InvoiceReminders do
         |> cast_embed(:InvoiceReminders)
         |> apply_changes
     end
+
+    def from_validation_exception(data) do
+        remapped_data = %{:InvoiceReminders => data."Elements"}
+        
+        %__MODULE__{}
+        |> cast(remapped_data, [])
+        |> cast_embed(:InvoiceReminders)
+        |> apply_changes
+    end
 end

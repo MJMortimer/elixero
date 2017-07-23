@@ -14,4 +14,13 @@ defmodule EliXero.CoreApi.Models.Currencies do
         |> cast_embed(:Currencies)
         |> apply_changes
     end
+
+    def from_validation_exception(data) do
+        remapped_data = %{:Currencies => data."Elements"}
+        
+        %__MODULE__{}
+        |> cast(remapped_data, [])
+        |> cast_embed(:Currencies)
+        |> apply_changes
+    end
 end

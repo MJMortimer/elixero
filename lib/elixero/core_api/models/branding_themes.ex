@@ -13,4 +13,13 @@ defmodule EliXero.CoreApi.Models.BrandingThemes do
         |> cast_embed(:BrandingThemes)
         |> apply_changes
     end
+
+    def from_validation_exception(data) do
+        remapped_data = %{:BrandingThemes => data."Elements"}
+        
+        %__MODULE__{}
+        |> cast(remapped_data, [])
+        |> cast_embed(:BrandingThemes)
+        |> apply_changes
+    end
 end

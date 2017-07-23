@@ -14,4 +14,13 @@ defmodule EliXero.CoreApi.Models.Users do
         |> cast_embed(:Users)
         |> apply_changes
     end
+
+    def from_validation_exception(data) do
+        remapped_data = %{:Users => data."Elements"}
+        
+        %__MODULE__{}
+        |> cast(remapped_data, [])
+        |> cast_embed(:Users)
+        |> apply_changes
+    end
 end
