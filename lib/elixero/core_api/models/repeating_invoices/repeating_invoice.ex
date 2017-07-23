@@ -1,6 +1,23 @@
 defmodule EliXero.CoreApi.Models.RepeatingInvoices.RepeatingInvoice do
     use Ecto.Schema
+    import Ecto.Changeset
+
     @derive {Poison.Encoder, except: [:__meta__, :id]}
+
+    @fields [
+        :RepeatingInvoiceID,
+        :Type,
+        :LineAmountTypes,
+        :Reference,
+        :BrandingThemeID,
+        :CurrencyCode,
+        :Status,
+        :SubTotal,
+        :TotalTax,
+        :Total,   
+        :HasAttachments,
+        :StatusAttributeString
+    ]
 
     schema "repeatinginvoices" do
         field :RepeatingInvoiceID, Ecto.UUID
@@ -20,5 +37,15 @@ defmodule EliXero.CoreApi.Models.RepeatingInvoices.RepeatingInvoice do
         embeds_many :ValidationErrors, EliXero.CoreApi.Models.Common.Error
         embeds_many :Warnings, EliXero.CoreApi.Models.Common.Warning
         field :StatusAttributeString, :string        
+    end
+
+    def changeset(struct, data) do
+        struct
+        |> cast(data, @fields)
+        |> cast_embed(:Contact)
+        |> cast_embed(:Schedule)
+        |> cast_embed(:LineItems)
+        |> cast_embed(:ValidationErrors)
+        |> cast_embed(:Warnings)
     end
 end
