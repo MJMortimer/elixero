@@ -10,7 +10,6 @@ defmodule EliXero.Utils.Http do
     {:ok, response} = HTTPoison.get url, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
     response
-    #handle_response(response)
   end
 
   def get(url, authorisation_header, extra_headers) do
@@ -19,7 +18,6 @@ defmodule EliXero.Utils.Http do
     {:ok, response} = HTTPoison.get url, headers, [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
     response
-    #handle_response(response)
   end
 
   def put(url, authorisation_header, data_map) do
@@ -27,8 +25,7 @@ defmodule EliXero.Utils.Http do
 
     {:ok, response} = HTTPoison.put url, payload, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
-    response
-    #handle_response(response)
+    response 
   end
 
   def post(url, authorisation_header, data_map) do
@@ -37,14 +34,12 @@ defmodule EliXero.Utils.Http do
     {:ok, response} = HTTPoison.post url, payload, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
     response
-    #handle_response(response)
   end
 
   def delete(url, authorisation_header) do
     {:ok, response} = HTTPoison.delete url, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
     response
-    #handle_response(response)
   end
 
   def post_multipart(url, authorisation_header, path_to_file, name) do
@@ -61,9 +56,9 @@ defmodule EliXero.Utils.Http do
     {:ok, response} = HTTPoison.post url, {:file, path_to_file}, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", @user_agent}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
     response
-    #handle_attachment_response(response)
   end
 
+  # possibly used by files beta. CoreAPI does not use after including Ecto.Schema
   defp handle_response(response) do
 
     headers = response.headers |> Map.new
@@ -75,6 +70,7 @@ defmodule EliXero.Utils.Http do
     end
   end
 
+  # possibly used by files beta. CoreAPI does not use after including Ecto.Schema
   defp handle_response(response, content_type) do
     content_type = String.split(content_type, " ") |> Enum.at(0)
 
@@ -84,6 +80,7 @@ defmodule EliXero.Utils.Http do
     end
   end
 
+  # possibly used by files beta. CoreAPI does not use after including Ecto.Schema
   defp handle_json_response(response) do
     resp = %{"http_status_code" => response.status_code}
 
@@ -91,12 +88,9 @@ defmodule EliXero.Utils.Http do
     Map.merge(resp, parsed)
   end
 
+  # possibly used by files beta. CoreAPI does not use after including Ecto.Schema
   defp handle_html_response(response) do
     resp = %{"http_status_code" => response.status_code}
     URI.decode_query(response.body) |> Map.merge(resp)
-  end
-
-  defp handle_attachment_response(response) do
-    %{"data" => response.body, "http_status_code" => response.status_code}
   end
 end
