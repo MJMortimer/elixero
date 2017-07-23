@@ -65,6 +65,7 @@ Once you have set up your config file you can use your public application like s
   ```
 
 2. Authorise the request token via user interaction
+
   The request token map will contain an auth_url key. The value for this key is the URL that you should direct the user to so that they can authorise your app to access an organisation.
 
 3. Create a client
@@ -98,6 +99,7 @@ Once you have set up your config file you can use your partner application like 
   ```
 
 2. Authorise the request token via user interaction
+
   The request token map will contain an auth_url key. The value for this key is the URL that you should direct the user to so that they can authorise your app to access an organisation.
 
 3. Create a client
