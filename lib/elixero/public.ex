@@ -6,17 +6,19 @@ defmodule EliXero.Public do
     callback_url = URI.encode(Application.get_env(:elixero, :callback_url), &URI.char_unreserved?(&1))
     request_token_url = EliXero.Utils.Urls.request_token
     header = EliXero.Utils.Oauth.create_auth_header("GET", request_token_url, [oauth_callback: callback_url], nil)
-    EliXero.Utils.Http.get(request_token_url, header)
-  end
+    response = EliXero.Utils.Http.get(request_token_url, header)
 
-  def generate_auth_url(request_token) do
-    EliXero.Utils.Urls.authorise(request_token["oauth_token"])
+    resp = %{"http_status_code" => response.status_code}
+    URI.decode_query(response.body) |> Map.merge(resp)
   end
 
   def approve_access_token(request_token, verifier) do
     access_token_url = EliXero.Utils.Urls.access_token
     header = EliXero.Utils.Oauth.create_auth_header("GET", access_token_url, [oauth_token: request_token["oauth_token"], oauth_verifier: verifier], request_token)
-    EliXero.Utils.Http.get(access_token_url, header)
+    response = EliXero.Utils.Http.get(access_token_url, header)
+
+    resp = %{"http_status_code" => response.status_code}
+    URI.decode_query(response.body) |> Map.merge(resp)
   end
 
   ### Api functions

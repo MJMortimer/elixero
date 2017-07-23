@@ -23,7 +23,7 @@ Note:
 
 ### Private application usage
 
-Private applications are not required to go through the process of acquiring an request token, authorising it, and then swaping it for an access token.
+Private applications are not required to go through the process of acquiring a request token, authorising it, and then swaping it for an access token.
 
 #### Required config variables
 
@@ -48,7 +48,7 @@ It's that easy.
 
 ### Public application usage
 
-Public applications must be authorised for use against a users organisation and must follow the oauth flow of acquiring a request token, having the request token authorised for an organisation, and swapping the request token for an access token, the access token must then be used when creating the client
+Public applications must be authorised for use against a user's organisation and must follow the oauth flow of acquiring a request token, having the request token authorised for an organisation, and swapping the request token for an access token. The access token must then be used with all API calls
 
 #### Required config variables
 
@@ -64,30 +64,25 @@ Once you have set up your config file you can use your public application like s
   request_token = EliXero.get_request_token
   ```
 
-2. Generate the authorisation url to be presented to the user
+2. Authorise the request token via user interaction
+
+  The request token map will contain an auth_url key. The value for this key is the URL that you should direct the user to so that they can authorise your app to access an organisation.
+
+3. Create a client
+
+Once the user has authorised the connection to an organisation and you have retrieved the verification code either from the user themself or the request back into your callback url, do the following:
   ```
-  auth_url = EliXero.generate_auth_url request_token
+  client = EliXero.create_client request_token, "VERIFICATION CODE"
   ```
 
-3. Swap the request token for an access token.
-  Once the user has authorised the connection to an organisation and you have retrieved the verification code either from the user themself or the request back into your callback url, do the following:
-  ```
-  access_token = EliXero.approve_access_token(request_token, "verification_code")
-  ```
-
-4. Create a client
-  ```
-  client = EliXero.create_client access_token
-  ```
-
-5. Use the client when calling the Xero API
+4. Use the client when calling the Xero API
   ```
   EliXero.CoreApi.Invoices.find client
   ```
 
 ### Partner application usage
 
-Partner applications are like a hybrid of both private and public applications. Partner applications use signing certificates like private applications but also require the same oauth process as public applications to recieve access tokens. Partner applications can also renew their access tokens after they expire preventing the user from needing re-authorise after 30 mins of usage.
+Partner applications are like a hybrid of both private and public applications. Partner applications use signing certificates like private applications but also require the same oauth process as public applications to recieve access tokens. Partner applications can also renew their access tokens after they expire preventing the user from needing to re-authorise the connection after 30 mins of usage.
 
 #### Required config variables
 
@@ -104,23 +99,18 @@ Once you have set up your config file you can use your partner application like 
   request_token = EliXero.get_request_token
   ```
 
-2. Generate the authorisation url to be presented to the user
+2. Authorise the request token via user interaction
+
+  The request token map will contain an auth_url key. The value for this key is the URL that you should direct the user to so that they can authorise your app to access an organisation.
+
+3. Create a client
+
+Once the user has authorised the connection to an organisation and you have retrieved the verification code either from the user themself or the request back into your callback url, do the following:
   ```
-  auth_url = EliXero.generate_auth_url request_token
+  client = EliXero.create_client request_token, "VERIFICATION CODE"
   ```
 
-3. Swap the request token for an access token.
-  Once the user has authorised the connection to an organisation and you have retrieved the verification code either from the user themself or the request back into your callback url, do the following:
-  ```
-  access_token = EliXero.approve_access_token(request_token, "verification_code")
-  ```
-
-4. Create a client
-  ```
-  client = EliXero.create_client access_token
-  ```
-
-5. Use the client when calling the Xero API
+4. Use the client when calling the Xero API
   ```
   EliXero.CoreApi.Invoices.find client
   ```
@@ -128,17 +118,19 @@ Once you have set up your config file you can use your partner application like 
 After your access token has expired, partner applications can renew them without the need for user input via authorisation.
 Given your existing access token is in a variable named access_token, this can be done like so:
 ```
-renewed_access_token = EliXero.renew_access_token access_token
+renewed_client = EliXero.renew_client client
 ```
+
+Note: Renewing a client renews the underlying access token. The original client cannot be used after renewing it.
 
 ## Use of filter functions
 
 Some endpoints allow various filter methods when retrieving information from the Xero API. 
-All filtering, with the exception of if-modified-since, is performed via query parameters. If-modified-since is done via headers.
+All filtering, with the exception of if-modified-since, is performed via query parameters. If-modified-since is done via a header.
 
 When using filtering, a map outlining what filtering you want needs to be supplied.
 
-Below is an example on how to do this when you want to retrieve all DRAFT, ACCREC invoices, ordered by Date desc, modified since the start of 2017,:
+Below is an example on how to do this when you want to retrieve all DRAFT, ACCREC invoices, ordered by Date desc, modified since the start of 2017:
 
 ```
 filter = %{:query_filters => [{"where", "Status==\"DRAFT\" AND Type==\"ACCREC\""}, {"orderby", "Date desc"}], :modified_since => "2017-01-01" }
@@ -146,7 +138,7 @@ filter = %{:query_filters => [{"where", "Status==\"DRAFT\" AND Type==\"ACCREC\""
 EliXero.CoreApi.Invoices.filter cient, filter
 ```
 
-Both :query_filters and :modified_since are not required when filtering if you only need to filter by one of them.
+You do not need to supply both :query_filters and :modified_since if you only want to filter by one of them.
 
 ## Installation
 
