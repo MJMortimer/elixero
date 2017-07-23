@@ -1,6 +1,24 @@
 defmodule EliXero.CoreApi.Models.Receipts.Receipt do
     use Ecto.Schema
+    import Ecto.Changeset
+
     @derive {Poison.Encoder, except: [:__meta__, :id]}
+
+    @fields [
+        :ReceiptID,
+        :Date,
+        :Reference,
+        :LineAmountTypes,
+        :SubTotal,
+        :TotalTax,
+        :Total,
+        :Status,
+        :ReceiptNumber,
+        :HasAttachments,
+        :Url,
+        :UpdatedDateUTC,
+        :StatusAttributeString
+    ]
 
     schema "receipts" do
         field :ReceiptID, Ecto.UUID
@@ -21,5 +39,15 @@ defmodule EliXero.CoreApi.Models.Receipts.Receipt do
         embeds_many :ValidationErrors, EliXero.CoreApi.Models.Common.Error
         embeds_many :Warnings, EliXero.CoreApi.Models.Common.Warning
         field :StatusAttributeString, :string   
+    end
+
+    def changeset(struct, data) do
+        struct
+        |> cast(data, @fields)
+        |> cast_embed(:Contact)
+        |> cast_embed(:LineItems)
+        |> cast_embed(:User)
+        |> cast_embed(:ValidationErrors)
+        |> cast_embed(:Warnings)
     end
 end
