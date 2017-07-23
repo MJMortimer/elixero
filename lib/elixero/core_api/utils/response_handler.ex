@@ -5,7 +5,7 @@ defmodule EliXero.CoreApi.Utils.ResponseHandler do
             %{:status_code => 204}  -> %{:status_code => 204, :message => "No Content"}
             %{:status_code => 400}  -> transform response.body, expected_model, :bad_request
             %{:status_code => 500}  -> transform_to_api_exception response.body
-            _                       -> %{:status_code => response.status_code, :message => response.body}
+            _                       -> %{:status_code => response.status_code, :message => URI.decode_query(response.body)}
         end
     end
 
