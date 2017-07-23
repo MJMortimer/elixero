@@ -69,7 +69,8 @@ Once you have set up your config file you can use your public application like s
   The request token map will contain an auth_url key. The value for this key is the URL that you should direct the user to so that they can authorise your app to access an organisation.
 
 3. Create a client
-  Once the user has authorised the connection to an organisation and you have retrieved the verification code either from the user themself or the request back into your callback url, do the following:
+
+Once the user has authorised the connection to an organisation and you have retrieved the verification code either from the user themself or the request back into your callback url, do the following:
   ```
   client = EliXero.create_client request_token, "VERIFICATION CODE"
   ```
@@ -103,7 +104,8 @@ Once you have set up your config file you can use your partner application like 
   The request token map will contain an auth_url key. The value for this key is the URL that you should direct the user to so that they can authorise your app to access an organisation.
 
 3. Create a client
-  Once the user has authorised the connection to an organisation and you have retrieved the verification code either from the user themself or the request back into your callback url, do the following:
+
+Once the user has authorised the connection to an organisation and you have retrieved the verification code either from the user themself or the request back into your callback url, do the following:
   ```
   client = EliXero.create_client request_token, "VERIFICATION CODE"
   ```
