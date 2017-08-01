@@ -148,7 +148,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
     ```elixir
     def deps do
-      [{:elixero, "~> 0.0.5"}]
+      [{:elixero, "~> 0.1.0"}]
     end
     ```
 
