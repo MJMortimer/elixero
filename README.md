@@ -136,7 +136,7 @@ Below is an example on how to do this when you want to retrieve all DRAFT, ACCRE
 ```
 filter = %{:query_filters => [{"where", "Status==\"DRAFT\" AND Type==\"ACCREC\""}, {"orderby", "Date desc"}], :modified_since => "2017-01-01" }
 
-EliXero.CoreApi.Invoices.filter cient, filter
+EliXero.CoreApi.Invoices.filter client, filter
 ```
 
 You do not need to supply both :query_filters and :modified_since if you only want to filter by one of them.
