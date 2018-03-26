@@ -3,9 +3,10 @@
 ## Usage instructions
 
 In order to use this SDK, you will need to have created an application in the [developer portal](https://app.xero.com).
-Once you've created your application you'll need to build a configuration file that stores you consumer key and secret as well as signing certificate information if applicable.
+Once you've created your application you'll a config section that stores your consumer key and secret as well as signing certificate information if applicable, as well as some other details.
 
-You will need to name the file 'xero_app_config.exs' and it will need to be structured to so
+As the config section will hold sensitive data, it's recommended that you create a seperate config file which is not stored in version control, and then import the new config file into your applications overall config file.  
+The config section will need to look something like this:
 
 ```
 config :elixero,
@@ -13,7 +14,7 @@ config :elixero,
   consumer_key: "your_applications_consumer_key",
   consumer_secret: "your_applications_consumer_secret",
   callback_url: "callback_url_if_applicable",
-  app_type: atom_denoting_app_type
+  app_type: :atom_denoting_app_type
 ```
 
 Note:
@@ -135,7 +136,7 @@ Below is an example on how to do this when you want to retrieve all DRAFT, ACCRE
 ```
 filter = %{:query_filters => [{"where", "Status==\"DRAFT\" AND Type==\"ACCREC\""}, {"orderby", "Date desc"}], :modified_since => "2017-01-01" }
 
-EliXero.CoreApi.Invoices.filter cient, filter
+EliXero.CoreApi.Invoices.filter client, filter
 ```
 
 You do not need to supply both :query_filters and :modified_since if you only want to filter by one of them.
@@ -148,7 +149,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
     ```elixir
     def deps do
-      [{:elixero, "~> 0.0.5"}]
+      [{:elixero, "~> 0.1.0"}]
     end
     ```
 
