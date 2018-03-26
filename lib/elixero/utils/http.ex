@@ -50,7 +50,7 @@ defmodule EliXero.Utils.Http do
     # Hackney sets this to be the filename from the path of the file. We need to override it
     content_disposition_overload = "form-data; filename=\"" <> name <> "\""
 
-    {:ok, response} = HTTPoison.post url, {:multipart, [{:file, path_to_file, [{"Content-Disposition", content_disposition_overload}]}]}, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", user_agent()}], [{:recv_timeout, @connection_timeout}] ++ [{:proxy, "127.0.0.1:8888"}]
+    {:ok, response} = HTTPoison.post url, {:multipart, [{:file, path_to_file, [{"Content-Disposition", content_disposition_overload}]}]}, [{"Authorization", authorisation_header}, {"Accept", @accept}, {"User-Agent", user_agent()}], [{:recv_timeout, @connection_timeout}] # ++ [{:proxy, "127.0.0.1:8888"}]
 
     handle_response(response)
   end
