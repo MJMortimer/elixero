@@ -2,7 +2,7 @@
 
 ## Usage instructions
 
-In order to use this SDK, you will need to have created an application in the [developer portal](https://app.xero.com).
+In order to use this SDK, you will need to have created an application in the [developer portal](https://developer.xero.com/myapps).
 Once you've created your application you'll a config section that stores your consumer key and secret as well as signing certificate information if applicable, as well as some other details.
 
 As the config section will hold sensitive data, it's recommended that you create a seperate config file which is not stored in version control, and then import the new config file into your applications overall config file.  
